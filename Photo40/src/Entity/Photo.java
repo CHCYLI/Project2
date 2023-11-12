@@ -10,12 +10,16 @@ public class Photo {
 	private HashMap<String,ArrayList<String>> tags;
 	
 	
-	private Photo(String path, Calendar cal, String caption, HashMap<String,ArrayList<String>> tags) {
+	public Photo(String path, Calendar cal, String caption, HashMap<String,ArrayList<String>> tags) {
         this.path = path;
         this.cal = cal;
         this.caption = caption;
         this.tags = tags;
     }
+	
+	public void setPath(String newPath) {
+		this.path = newPath;
+	}
 	
 	public String getPath() {
 		return path;
@@ -25,8 +29,16 @@ public class Photo {
 		return cal;
 	}
 	
+	public void setCaption(String newCaption) {
+		this.caption = newCaption;
+	}
+	
 	public String getCaption() {
 		return caption;
+	}
+	
+	public void setTags (HashMap<String,ArrayList<String>> newTag) {
+		this.tags = newTag;
 	}
 	
 	public HashMap<String,ArrayList<String>> getTags() {
@@ -50,4 +62,6 @@ public class Photo {
 		tags.get(name).remove(value);
 		//tags.remove(name);
 	}
+	
+	
 }
