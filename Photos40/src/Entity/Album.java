@@ -37,6 +37,7 @@ public class Album {
 	
 	/*
 	 * @param targetPhoto delete photo from album
+	 * @return return if successful or not
 	 */
 	public boolean deletePhoto(Photo targetPhoto) {
 		for (int i = 0; i < albumPhoto.size(); i++) {
@@ -48,10 +49,18 @@ public class Album {
 		return false;
 	}
 	
+	/*
+	 * @return return the size of albumPhoto length
+	 */
 	public int getAlbumSize() {
 		return albumPhoto.size();
 	}
 	
+	
+	/*
+	 * @param path path of photo
+	 * @return return the photo or null if not found (by path)
+	 */
 	public Photo getPhoto(String path) {
 		for (int i = 0; i < albumPhoto.size(); i++) {
 			if (path == albumPhoto.get(i).getPath()) return albumPhoto.get(i);
@@ -60,10 +69,19 @@ public class Album {
 		return null;
 	}
 	
+	/*
+	 * @param index index of arraylist
+	 * @return return the photo of that position
+	 */
 	public Photo getPhoto(int index) { //get photos by index
 		return albumPhoto.get(index);
 	}
 	
+	
+	/*
+	 * @param path path of photo
+	 * @return return if the album has the photo or not
+	 */
 	public boolean hasPhoto(String path) {
 		for (int i = 0; i < albumPhoto.size(); i++) {
 			if (path == albumPhoto.get(i).getPath()) return true;

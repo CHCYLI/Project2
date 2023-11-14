@@ -240,6 +240,12 @@ public class User {
 		return true;
 	}
 	
+	/*
+	 * @param fromDate from which date
+	 * @param toDate to which date
+	 * @return selected photos
+	 * @throws if the input is not a valid date
+	 */
 	public ObservableList<Photo> searchByCal(String fromDate, String toDate) throws ParseException{ //search by date
 		Calendar fromCal = Calendar.getInstance();
 		Calendar toCal = Calendar.getInstance();
@@ -260,12 +266,47 @@ public class User {
 				}
 			}
 		}
-		return FXCollections.observableList(photoList);
+		return FXCollections.observableArrayList(photoList);
 	}
 	
-	public ObservableList<Photo> searchByTags(String targetTag) {
+	
+	/*
+	 * @param tagName name of tag
+	 * @param tagValue value of tag
+	 * @param type conjunctive or disjunctive or single name
+	 * @return return photo list
+	 */
+	public ObservableList<Photo> searchByTags(String tagName, String tagValue, String type) {
+		ArrayList<Photo> photoList = new ArrayList<Photo>();
+		if (tagValue == null) { //if single value (name)
+			for (int i = 0; i < albums.size(); i++) {
+				for (int j = 0; j < albums.get(i).getAlbumSize(); j++) {
+					if (albums.get(i).getPhoto(j).hasTagName(tagName))
+						photoList.add(albums.get(i).getPhoto(j));
+				}
+			}
+			
+		}
+	
 		
+		if (!(tagValue == null) && !(tagName == null) && type == "AND") { //if conjunctive combination
+			for (int i = 0; i < albums.size(); i++) {
+				for (int j = 0; j < albums.get(i).getAlbumSize(); j++) {
+					if (albums.get(i).getPhoto(j).hasTagName(tagName) && albums.get(i).getPhoto(j).hasTagValue(tagName, tagValue))
+						photoList.add(albums.get(i).getPhoto(j));
+				}
+			}
+		}
 		
-		return null;
+		if (!(tagValue == null) && !(tagName == null)) { //if disjunctive combination, can ignore the type "OR"
+			for (int i = 0; i < albums.size(); i++) {
+				for (int j = 0; j < albums.get(i).getAlbumSize(); j++) {
+					if (albums.get(i).getPhoto(j).hasTagName(tagName) || albums.get(i).getPhoto(j).hasTagValue(tagName, tagValue))
+						photoList.add(albums.get(i).getPhoto(j));
+				}
+			}
+		}
+		
+		return FXCollections.observableArrayList(photoList);
 	}
 }

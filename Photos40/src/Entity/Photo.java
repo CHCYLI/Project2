@@ -100,4 +100,23 @@ public class Photo {
 		//tags.remove(name);
 	}
 	
+	/*
+	 * @param tagName
+	 * @return if photo has this tag name
+	 */
+	public boolean hasTagName(String tagName) {
+		return tags.containsKey(tagName);
+	}
+	
+	/*
+	 * @param tagName
+	 * @param tagValue
+	 * @return if photo has this tag value
+	 */
+	public boolean hasTagValue(String tagName, String tagValue) {
+		if (hasTagName(tagName)) {
+			return tags.get(tagName).contains(tagValue);
+		}
+		return false;
+	}
 }

@@ -6,9 +6,23 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class Admin {
-	private Admin() {}
-	private ArrayList<User> usersList = new ArrayList<User>();
+	private ArrayList<User> usersList;
+	private String adminName;
 	
+	/*
+	 * @param name name of the admin
+	 */
+	private Admin(String name) {
+		this.adminName = name;
+		usersList = new ArrayList<User>();
+	}
+	
+	/*
+	 * @return the name of admin
+	 */
+	public String getName() {
+		return adminName;
+	}
 	
 	/*
 	 * @param username Create user
@@ -47,6 +61,9 @@ public class Admin {
 		return null;
 	}
 	
+	/*
+	 * @return return the list of users
+	 */
 	public ObservableList<String> usernameList() {
 		ArrayList<String> finalList = new ArrayList<String>();
 		
