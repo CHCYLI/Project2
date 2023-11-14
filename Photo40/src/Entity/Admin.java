@@ -7,7 +7,10 @@ public class Admin {
 	private ArrayList<User> usersList;
 	
 	
-	
+	/*
+	 * Create user
+	 * @param username
+	 */
 	public boolean createUser(String username) {
 		for (int i = 0; i < usersList.size(); i++) {
 			if (username == usersList.get(i).getUsername()) return false;
@@ -17,7 +20,11 @@ public class Admin {
 		return true;
 	}
 	
-	
+	/*
+	 * 
+	 * delete user
+	 * @param username
+	 */
 	public boolean deleteUser(String username) {
 		for (int i = 0; i < usersList.size(); i++) {
 			if (username == usersList.get(i).getUsername()) {
@@ -26,6 +33,19 @@ public class Admin {
 			}
 		}
 		return false;
+	}
+	
+	/*
+	 * obtain username
+	 * @param username
+	 */
+	public User getUser(String username) {
+		for (int i = 0; i < usersList.size(); i++) {
+			if (username == usersList.get(i).getUsername()) {
+				return usersList.get(i);
+			}
+		}
+		return null;
 	}
 	
 	

@@ -11,17 +11,11 @@ import javafx.scene.Parent;
 
 public class LoginControl extends Application {
 	public static Stage STAGE;
-	@Override
+	
+	/*
+	 * @param start
+	 */
 	public void start(Stage stage) throws IOException{
-		/*try {
-			BorderPane root = new BorderPane();
-			Scene scene = new Scene(root,400,400);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			primaryStage.setScene(scene);
-			primaryStage.show();
-		} catch(Exception e) {
-			e.printStackTrace();
-		}*/
 		STAGE = stage;
 		//FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login.fxml"));
 		FXMLLoader fxmlLoader = new FXMLLoader(LoginControl.class.getResource("/View/FXMLFILES/Login.fxml"));
@@ -31,11 +25,19 @@ public class LoginControl extends Application {
         stage.show();
 	}
 	
+	
+	/*
+	 * @param start
+	 */
 	 public void start() throws IOException {
 	        Stage stage = new Stage();
 	        start(stage);
 	    }
-	
+	 
+	 
+	/*
+	* @param launch args 
+	*/
 	public static void main(String[] args) {
 		launch(args);
 	}
