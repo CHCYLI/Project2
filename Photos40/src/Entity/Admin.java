@@ -2,9 +2,12 @@ package Entity;
 
 import java.util.ArrayList;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 public class Admin {
 	private Admin() {}
-	private ArrayList<User> usersList;
+	private ArrayList<User> usersList = new ArrayList<User>();
 	
 	
 	/*
@@ -44,5 +47,13 @@ public class Admin {
 		return null;
 	}
 	
-	
+	public ObservableList<String> usernameList() {
+		ArrayList<String> finalList = new ArrayList<String>();
+		
+		for (int i = 0; i < usersList.size(); i++) {
+			finalList.add(usersList.get(i).getUsername());
+		}
+		
+		return FXCollections.observableList(finalList);
+	}
 }

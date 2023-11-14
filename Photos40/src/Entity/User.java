@@ -254,12 +254,18 @@ public class User {
 		toCal.setTime(tempDate);
 		
 		for (int i = 0; i < albums.size(); i++) {
-			for (int j = 0; j < albums.get(i).getAlbumSize(); i++) {
-				if (albums.get(i).getPhoto(i).getCalendar().after(fromCal) && albums.get(i).getPhoto(i).getCalendar().before(toCal)) {
-					photoList.add(albums.get(i).getPhoto(i));
+			for (int j = 0; j < albums.get(i).getAlbumSize(); j++) {
+				if (albums.get(i).getPhoto(j).getCalendar().after(fromCal) && albums.get(i).getPhoto(j).getCalendar().before(toCal)) {
+					photoList.add(albums.get(i).getPhoto(j));
 				}
 			}
 		}
 		return FXCollections.observableList(photoList);
+	}
+	
+	public ObservableList<Photo> searchByTags(String targetTag) {
+		
+		
+		return null;
 	}
 }
