@@ -1,7 +1,11 @@
 package Entity;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class User {
@@ -236,11 +240,26 @@ public class User {
 		return true;
 	}
 	
-	public ObservableList<Photo> searchByCal(String fromDate, String toDate) { //search by date
+	public ObservableList<Photo> searchByCal(String fromDate, String toDate) throws ParseException{ //search by date
+		Calendar fromCal = Calendar.getInstance();
+		Calendar toCal = Calendar.getInstance();
+		ArrayList<Photo> photoList = new ArrayList<Photo>();
+		
+		SimpleDateFormat tempFrom = new SimpleDateFormat("MM/dd/yyyy");
+		Date tempDate = tempFrom.parse(fromDate);
+		fromCal.setTime(tempDate);
+		
+		SimpleDateFormat tempTo = new SimpleDateFormat("MM/dd/yyyy");
+		tempDate = tempTo.parse(toDate);
+		toCal.setTime(tempDate);
+		
 		for (int i = 0; i < albums.size(); i++) {
 			for (int j = 0; j < albums.get(i).getAlbumSize(); i++) {
-				
+				if (albums.get(i).getPhoto(i).getCalendar().after(fromCal) && albums.get(i).getPhoto(i).getCalendar().before(toCal)) {
+					photoList.add(albums.get(i).getPhoto(i));
+				}
 			}
 		}
+		return FXCollections.observableList(photoList);
 	}
 }

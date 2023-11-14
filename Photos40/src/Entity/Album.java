@@ -60,6 +60,10 @@ public class Album {
 		return null;
 	}
 	
+	public Photo getPhoto(int index) { //get photos by index
+		return albumPhoto.get(index);
+	}
+	
 	public boolean hasPhoto(String path) {
 		for (int i = 0; i < albumPhoto.size(); i++) {
 			if (path == albumPhoto.get(i).getPath()) return true;
