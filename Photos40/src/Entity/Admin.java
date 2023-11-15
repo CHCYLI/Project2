@@ -47,7 +47,7 @@ public class Admin {
 	 */
 	public User getUser(String username) {
 		for (int i = 0; i < usersList.size(); i++) {
-			if (username == usersList.get(i).getUsername()) {
+			if (username.equals(usersList.get(i).getUsername())) {
 				return usersList.get(i);
 			}
 		}
@@ -56,7 +56,7 @@ public class Admin {
 	
 	public String getUsername(String username) {
 		for (int i = 0; i < usersList.size(); i++) {
-			if (username == usersList.get(i).getUsername()) {
+			if (username.equals(usersList.get(i).getUsername())) {
 				return usersList.get(i).getUsername();
 			}
 		}

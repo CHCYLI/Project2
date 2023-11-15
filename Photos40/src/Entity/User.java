@@ -35,7 +35,7 @@ public class User {
 	 */
 	public boolean createAlbum(String albumName) {
 		for (int i = 0; i < albums.size(); i++) {
-			if (albumName == albums.get(i).getAlbumName()) return false;
+			if (albumName.equals(albums.get(i).getAlbumName())) return false;
 		}
 		
 		albums.add(new Album(albumName));
@@ -48,7 +48,7 @@ public class User {
 	 */
 	public boolean deleteAlbum(String albumName) {
 		for (int i = 0; i < albums.size(); i++) {
-			if (albumName == albums.get(i).getAlbumName()) {
+			if (albumName.equals(albums.get(i).getAlbumName())) {
 				albums.remove(i);
 				return true;
 			}
@@ -64,7 +64,7 @@ public class User {
 	public boolean renameAlbum(String oldName, String newName) {
 		if (oldName == newName) return true;
 		for (int i = 0; i < albums.size(); i++) {
-			if (oldName == albums.get(i).getAlbumName()) {
+			if (oldName.equals(albums.get(i).getAlbumName())) {
 				albums.get(i).setName(newName);
 				return true;
 			}
@@ -77,13 +77,14 @@ public class User {
 	 * @param photo photo itself
 	 * @return return if valid or not
 	 */
-	public void addPhoto(String albumName, Photo photo) {
+	public boolean addPhoto(String albumName, Photo photo) {
 		for (int i = 0; i < albums.size(); i++) {
-			if (albumName == albums.get(i).getAlbumName()) {
-				albums.get(i).addPhoto(photo);
-				break;
+			if (albumName.equals(albums.get(i).getAlbumName())) {
+				if (!(albums.get(i).addPhoto(photo)))
+				return false;
 			}
 		}
+		return true;
 	}
 	
 	/*
@@ -93,7 +94,7 @@ public class User {
 	 */
 	public boolean deletePhoto(String albumName, Photo photo) {
 		for (int i = 0; i < albums.size(); i++) {
-			if (albumName == albums.get(i).getAlbumName()) {
+			if (albumName.equals(albums.get(i).getAlbumName())) {
 				if (!(albums.get(i).deletePhoto(photo))) {
 					return false;
 				} else {
@@ -112,9 +113,9 @@ public class User {
 	 */
 	public void setupCaption (String albumName, Photo photo, String caption) {
 		for (int i = 0; i < albums.size(); i++) {
-			if (albums.get(i).getAlbumName() == albumName) {
+			if (albums.get(i).getAlbumName().equals(albumName)) {
 				for (int j = 0; j < albums.get(i).getAlbumSize(); j++) {
-					if (albums.get(i).getPhoto(photo.getPath()) == photo) {
+					if (albums.get(i).getPhoto(photo.getPath()).equals(photo)) {
 						albums.get(i).getPhoto(photo.getPath()).setCaption(caption);
 						return;
 					}
@@ -132,9 +133,9 @@ public class User {
 	 */
 	public boolean addTag (String albumName, Photo photo, String tagName, String tagValue) {
 		for (int i = 0; i < albums.size(); i++) {
-			if (albums.get(i).getAlbumName() == albumName) {
+			if (albums.get(i).getAlbumName().equals(albumName)) {
 				for (int j = 0; j < albums.get(i).getAlbumSize(); j++) {
-					if (albums.get(i).getPhoto(photo.getPath()) == photo) {
+					if (albums.get(i).getPhoto(photo.getPath()).equals(photo)) {
 						albums.get(i).getPhoto(photo.getPath()).addTag(tagName, tagValue);
 						return true;
 					}
@@ -152,9 +153,9 @@ public class User {
 	 */
 	public void deleteTag (String albumName, Photo photo, String tagName, String tagValue) {
 		for (int i = 0; i < albums.size(); i++) {
-			if (albums.get(i).getAlbumName() == albumName) {
+			if (albums.get(i).getAlbumName().equals(albumName)) {
 				for (int j = 0; j < albums.get(i).getAlbumSize(); j++) {
-					if (albums.get(i).getPhoto(photo.getPath()) == photo) {
+					if (albums.get(i).getPhoto(photo.getPath()).equals(photo)) {
 						albums.get(i).getPhoto(photo.getPath()).deleteTag(tagName, tagValue);
 						return;
 					}
@@ -177,20 +178,20 @@ public class User {
 		int originalIndex = -1;
 		int targetIndex = -1;
 		for (int i = 0; i < albums.size(); i++) {
-			if (albums.get(i).getAlbumName() == original) {
+			if (albums.get(i).getAlbumName().equals(original)) {
 				originalAlbumS = albums.get(i).getAlbumName();
 				originalAlbum = albums.get(i);
 				originalIndex = i;
 			}
 			
-			if (albums.get(i).getAlbumName() == target) {
+			if (albums.get(i).getAlbumName().equals(target)) {
 				targetAlbumS = albums.get(i).getAlbumName();
 				//targetAlbum = albums.get(i);
 				targetIndex = i;
 			}
 		}
 		
-		if (originalAlbumS == "" || targetAlbumS == "") return false;
+		if (originalAlbumS.equals("")|| targetAlbumS.equals("")) return false;
 		/**************************/
 		
 		if (!originalAlbum.hasPhoto(path)) return false;
@@ -215,20 +216,20 @@ public class User {
 		int originalIndex = -1;
 		int targetIndex = -1;
 		for (int i = 0; i < albums.size(); i++) {
-			if (albums.get(i).getAlbumName() == original) {
+			if (albums.get(i).getAlbumName().equals(original)) {
 				originalAlbumS = albums.get(i).getAlbumName();
 				originalAlbum = albums.get(i);
 				originalIndex = i;
 			}
 			
-			if (albums.get(i).getAlbumName() == target) {
+			if (albums.get(i).getAlbumName().equals(target)) {
 				targetAlbumS = albums.get(i).getAlbumName();
 				//targetAlbum = albums.get(i);
 				targetIndex = i;
 			}
 		}
 		
-		if (originalAlbumS == "" || targetAlbumS == "") return false;
+		if (originalAlbumS.equals("")|| targetAlbumS.equals("")) return false;
 		/**************************/
 		
 		if (!originalAlbum.hasPhoto(path)) return false;

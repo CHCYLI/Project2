@@ -30,9 +30,14 @@ public class Album {
 	
 	/*
 	 * @param importedPhoto add photo to the album
+	 * @return if added succesfully or not
 	 */
-	public void addPhoto(Photo importedPhoto) {
+	public boolean addPhoto(Photo importedPhoto) {
+		if (hasPhoto(importedPhoto.getPath())) {
+			return false;
+		}
 		albumPhoto.add(importedPhoto);
+		return true;
 	}
 	
 	/*
@@ -41,7 +46,7 @@ public class Album {
 	 */
 	public boolean deletePhoto(Photo targetPhoto) {
 		for (int i = 0; i < albumPhoto.size(); i++) {
-			if (targetPhoto.getPath() == albumPhoto.get(i).getPath()) {
+			if (targetPhoto.getPath().equals(albumPhoto.get(i).getPath())) {
 				albumPhoto.remove(i);
 				return true;
 			}
@@ -63,7 +68,7 @@ public class Album {
 	 */
 	public Photo getPhoto(String path) {
 		for (int i = 0; i < albumPhoto.size(); i++) {
-			if (path == albumPhoto.get(i).getPath()) return albumPhoto.get(i);
+			if (path.equals(albumPhoto.get(i).getPath())) return albumPhoto.get(i);
 		}
 		
 		return null;
@@ -84,7 +89,7 @@ public class Album {
 	 */
 	public boolean hasPhoto(String path) {
 		for (int i = 0; i < albumPhoto.size(); i++) {
-			if (path == albumPhoto.get(i).getPath()) return true;
+			if (path.equals(albumPhoto.get(i).getPath())) return true;
 		}
 		
 		return false;

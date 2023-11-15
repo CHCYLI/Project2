@@ -21,7 +21,7 @@ public class Photos extends Application {
 			stage.show();
 			
 			stage.setOnCloseRequest(event -> {
-				//event.consume();
+				event.consume();
 				quit(stage);
 			});
 			
