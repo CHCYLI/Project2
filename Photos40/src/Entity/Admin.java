@@ -6,15 +6,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class Admin {
-	private ArrayList<User> usersList;
+	private ArrayList<User> usersList = new ArrayList<User>();
 	private String adminName;
 	
 	/*
 	 * @param name name of the admin
 	 */
-	private Admin(String name) {
+	public Admin(String name) {
 		this.adminName = name;
-		usersList = new ArrayList<User>();
 	}
 	
 	/*
@@ -29,7 +28,7 @@ public class Admin {
 	 */
 	public boolean createUser(String username) {
 		for (int i = 0; i < usersList.size(); i++) {
-			if (username == usersList.get(i).getUsername()) return false;
+			if (username.equals(usersList.get(i).getUsername())) return false;
 		}
 		
 		usersList.add(new User(username));
@@ -39,14 +38,8 @@ public class Admin {
 	/*
 	 * @param username delete user
 	 */
-	public boolean deleteUser(String username) {
-		for (int i = 0; i < usersList.size(); i++) {
-			if (username == usersList.get(i).getUsername()) {
-				usersList.remove(i);
-				return true;
-			}
-		}
-		return false;
+	public void deleteUser(int selectedIndex) {
+		usersList.remove(selectedIndex);
 	}
 	
 	/*
@@ -60,6 +53,16 @@ public class Admin {
 		}
 		return null;
 	}
+	
+	public String getUsername(String username) {
+		for (int i = 0; i < usersList.size(); i++) {
+			if (username == usersList.get(i).getUsername()) {
+				return usersList.get(i).getUsername();
+			}
+		}
+		return null;
+	}
+	
 	
 	/*
 	 * @return return the list of users

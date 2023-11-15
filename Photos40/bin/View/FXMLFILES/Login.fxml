@@ -47,7 +47,7 @@
             <Font name="Comic Sans MS" size="48.0" />
          </font>
       </Label>
-      <TextField layoutX="275.0" layoutY="316.0" prefHeight="42.0" prefWidth="420.0" promptText="Example: johnAppleseed" AnchorPane.bottomAnchor="120.0" AnchorPane.leftAnchor="160.0">
+      <TextField fx:id="usernameInput" layoutX="275.0" layoutY="316.0" prefHeight="42.0" prefWidth="420.0" promptText="Example: johnAppleseed" AnchorPane.bottomAnchor="120.0" AnchorPane.leftAnchor="160.0">
          <font>
             <Font name="Comic Sans MS Italic" size="20.0" />
          </font>
@@ -57,7 +57,7 @@
             <Font name="Comic Sans MS" size="24.0" />
          </font>
       </Label>
-      <Button layoutX="275.0" layoutY="398.0" mnemonicParsing="false" onAction="#switchToSubsystem" text="Login" AnchorPane.bottomAnchor="30.0">
+      <Button fx:id="loginButton" layoutX="275.0" layoutY="398.0" mnemonicParsing="false" onAction="#switchToSubsystem" text="Login" AnchorPane.bottomAnchor="30.0">
          <font>
             <Font name="Comic Sans MS" size="24.0" />
          </font>

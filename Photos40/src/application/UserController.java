@@ -3,6 +3,7 @@ package application;
 
 import java.io.IOException;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -21,10 +22,11 @@ public class UserController {
 	private Scene scene;
 	private Parent root;
 	
+	@FXML
+	MenuBar myMenuBar;
+	
 	public void logout(ActionEvent event) throws IOException {
 		//System.out.println("test");
-		Menu userMenu = new Menu("User");
-		MenuItem item = new MenuItem("Logout...");
 		
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Logout?");
@@ -32,8 +34,8 @@ public class UserController {
 		alert.setContentText("Changes will be saved.");
 		
 		if(alert.showAndWait().get() == ButtonType.OK) {
-			Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
-			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+			root = FXMLLoader.load(getClass().getResource("/View/FXMLFILES/Login.fxml"));
+			stage = (Stage) myMenuBar.getScene().getWindow();
 			scene = new Scene(root);
 			stage.setScene(scene);
 			stage.show();
@@ -43,7 +45,7 @@ public class UserController {
 	public void help(ActionEvent event) throws IOException {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("About This Page");
-		alert.setHeaderText("This is the albums page");
+		alert.setHeaderText("Albums Page");
 		alert.setContentText("You can create new albums, rename existing ones, or delete albums altogether. Click on an album to view its photos.");
 		alert.showAndWait();
 	}
