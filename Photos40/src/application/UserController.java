@@ -5,13 +5,16 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Optional;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
@@ -20,10 +23,13 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.Node;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 import Entity.User;
 
 public class UserController {
@@ -38,11 +44,12 @@ public class UserController {
 	@FXML
     private ListView<String> listOfAlbums;
 	
-	@FXML
-	private Label userName;
-	
-	void displayUsername() {
-		userName.setText("User: " + user.getUsername());
+	public void showUsername(ActionEvent e) {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("About Your Information");
+		alert.setHeaderText("Username");
+		alert.setContentText("Username: " + user.getUsername());
+		alert.showAndWait();
 	}
 	
 	public void logout(ActionEvent event) throws IOException {
@@ -68,24 +75,13 @@ public class UserController {
 		alert.showAndWait();
 	}
 	
-	public void createAlbum(MouseEvent event) throws IOException {
+	public void createAlbum(ActionEvent event) throws IOException {
 		
 		TextInputDialog inputDialog = new TextInputDialog();
 		inputDialog.setTitle("New Album");
 		inputDialog.setHeaderText("New Album");
 		inputDialog.setContentText("Enter name for new album...");
 		
-		/*final Button ok = (Button) inputDialog.getDialogPane().lookupButton(ButtonType.OK);
-        ok.addEventFilter(ActionEvent.ACTION, event2 ->
-            System.out.println("OK was definitely pressed")
-        );*/
-
-        /*final Button cancel = (Button) inputDialog.getDialogPane().lookupButton(ButtonType.CANCEL);
-        cancel.addEventFilter(ActionEvent.ACTION, event2 ->{
-        	System.out.println("Cancel was definitely pressed");
-        	return;
-            }
-        );*/
         
         Optional<String> nameInput = inputDialog.showAndWait();
         String name = nameInput.get();
@@ -109,15 +105,80 @@ public class UserController {
 			return;
 		}
 		else {
-			System.out.println(nameInput.get());
+			//System.out.println(nameInput.get());
 			//add new album to user's library
 			listOfAlbums.getItems().add(name);
-			
 		}
+        
+        
+	}
+	
+	public void deleteAlbum(ActionEvent event) throws IOException {
+		TextInputDialog inputDialog = new TextInputDialog();
+		inputDialog.setTitle("Delete Album");
+		inputDialog.setHeaderText("Delete Album");
+		inputDialog.setContentText("Enter name of the album...");
+		
+        Optional<String> nameInput = inputDialog.showAndWait();
+        String name = nameInput.get();
+        
+        if (name.isEmpty()){
+        	Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("ERROR");
+			alert.setHeaderText("Empty Name Entry");
+			alert.setContentText("Cannot delete an album with an empty name!");
+			alert.showAndWait();
+			return;
+		}
+        
+        int indexOfTargetAlbum = user.getAlbumIndex(name);
+        if (indexOfTargetAlbum == -1) {
+        	Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("ERROR");
+			alert.setHeaderText("Invalid Name Entry");
+			alert.setContentText("Cannot delete an album that does not exist");
+			alert.showAndWait();
+			return;
+        }
+        
+        if (user.deleteAlbum(name)) {
+        	listOfAlbums.getItems().remove(indexOfTargetAlbum);
+        	Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Delete Album");
+			alert.setHeaderText("Delete Album");
+			alert.setContentText("Album has been deleted successfully");
+			alert.showAndWait();
+			return;
+        }
 	}
 	
 	public void renameAlbum(ActionEvent event) throws IOException {
 		//if name match: ask for new name
 		//else if nothing entered/nomatch: errormsg
+		Dialog<Pair<String, String>> renameDialog = new Dialog<>();
+		renameDialog.setTitle("Rename Album");
+		renameDialog.setHeaderText("Enter the name of the album you want to change:");
+		
+		ButtonType okButton = new ButtonType("OK", ButtonData.OK_DONE);
+		renameDialog.getDialogPane().getButtonTypes().addAll(okButton, ButtonType.CANCEL);
+		
+		GridPane renameGrid = new GridPane();
+		renameGrid.setHgap(20);
+		renameGrid.setVgap(20);
+		renameGrid.setPadding(new Insets(20, 150, 10, 10));
+		
+		TextField oldAlbumName = new TextField();
+	    TextField newAlbumName = new TextField();
+	    
+	    renameGrid.add(oldAlbumName, 0, 1);
+	    renameGrid.add(new Label("Original Name"), 0, 0);
+	    renameGrid.add(newAlbumName, 1, 1);
+	    renameGrid.add(new Label("New Name"), 1, 0);
+	    
+	    renameDialog.getDialogPane().setContent(renameGrid);
+	    
+	    renameDialog.showAndWait();
+		
+		
 	}
 }

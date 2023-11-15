@@ -73,6 +73,19 @@ public class User {
 	}
 	
 	/*
+	 * @param name name of the album
+	 * @return return the index of the album in the arraylist
+	 */
+	public int getAlbumIndex (String name) {
+		for (int i = 0; i < albums.size(); i++) {
+			if (name.equals(albums.get(i).getAlbumName())) {
+				return i;
+			}
+		}
+		return -1;
+	}
+	
+	/*
 	 * @param albumName name of album
 	 * @param photo photo itself
 	 * @return return if valid or not
