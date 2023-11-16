@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Optional;
 
+import Model.User;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -30,7 +31,6 @@ import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.Node;
 import javafx.stage.Stage;
 import javafx.util.Pair;
-import Entity.User;
 
 public class UserController {
 	

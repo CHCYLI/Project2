@@ -5,6 +5,7 @@ package application;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import Model.Admin;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,8 +24,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.Node;
 import javafx.stage.Stage;
-
-import Entity.Admin;
 
 public class AdminController {
 	
