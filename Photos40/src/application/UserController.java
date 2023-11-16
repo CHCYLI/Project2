@@ -81,10 +81,18 @@ public class UserController {
 		inputDialog.setTitle("New Album");
 		inputDialog.setHeaderText("New Album");
 		inputDialog.setContentText("Enter name for new album...");
+		//inputDialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
 		
         
         Optional<String> nameInput = inputDialog.showAndWait();
+        
+        if(!nameInput.isPresent()) {
+			return;
+        }
+        
         String name = nameInput.get();
+        
+        
 		
         if (name.isEmpty()){
         	Alert alert = new Alert(AlertType.ERROR);
@@ -111,6 +119,8 @@ public class UserController {
 		}
         
         
+        
+        
 	}
 	
 	public void deleteAlbum(ActionEvent event) throws IOException {
@@ -120,7 +130,14 @@ public class UserController {
 		inputDialog.setContentText("Enter name of the album...");
 		
         Optional<String> nameInput = inputDialog.showAndWait();
+        
+        if(!nameInput.isPresent()) {
+			return;
+        }
+        
         String name = nameInput.get();
+        
+        
         
         if (name.isEmpty()){
         	Alert alert = new Alert(AlertType.ERROR);
@@ -150,6 +167,9 @@ public class UserController {
 			alert.showAndWait();
 			return;
         }
+        
+        
+        
 	}
 	
 	public void renameAlbum(ActionEvent event) throws IOException {
@@ -179,6 +199,28 @@ public class UserController {
 	    
 	    renameDialog.showAndWait();
 		
+		String oldName = oldAlbumName.getText().strip();
+		String newName = newAlbumName.getText().strip();
 		
+		if (oldName.isEmpty() || newName.isEmpty()) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Rename Album");
+			alert.setHeaderText("Empty Name");
+			alert.setContentText("Empty name is not valid!");
+			alert.showAndWait();
+			return;
+		}
+		
+		int albumIndex = user.getAlbumIndex(oldName);
+		if (user.renameAlbum(oldName, newName)) {
+			listOfAlbums.getItems().set(albumIndex, newName);
+		} else {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Rename Album");
+			alert.setHeaderText("Rename Album");
+			alert.setContentText("Please check if the original album name is entered correctly!");
+			alert.showAndWait();
+			return;
+		}
 	}
 }
