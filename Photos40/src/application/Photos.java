@@ -13,7 +13,7 @@ public class Photos extends Application {
 	@Override
 	public void start(Stage stage) {
 		try {
-			Parent root = FXMLLoader.load(getClass().getResource("/View/FXMLFILES/Login.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource("/View/Login.fxml"));
 			Scene scene = new Scene(root,640,480);
 			//scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			stage.setTitle("uPhotos");

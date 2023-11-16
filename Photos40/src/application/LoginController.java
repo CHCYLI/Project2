@@ -34,10 +34,10 @@ public class LoginController {
 		
 		//if == admin: Admin subsystem
 		if (enteredText.equals("admin")) {
-			root = FXMLLoader.load(getClass().getResource("/View/FXMLFILES/Admin.fxml"));
+			root = FXMLLoader.load(getClass().getResource("/View/Admin.fxml"));
 		}
 		else if (enteredText.equals("user")) {
-			root = FXMLLoader.load(getClass().getResource("/View/FXMLFILES/User.fxml"));
+			root = FXMLLoader.load(getClass().getResource("/View/User.fxml"));
 		}
 		else {
 			Alert alert = new Alert(AlertType.ERROR);

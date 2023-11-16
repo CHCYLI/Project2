@@ -52,7 +52,7 @@ public class AdminController {
 		alert.setContentText("Changes will be saved.");
 		
 		if(alert.showAndWait().get() == ButtonType.OK) {
-			root = FXMLLoader.load(getClass().getResource("/View/FXMLFILES/Login.fxml"));
+			root = FXMLLoader.load(getClass().getResource("/View/Login.fxml"));
 			stage = (Stage) myMenuBar.getScene().getWindow();
 			scene = new Scene(root);
 			stage.setScene(scene);
