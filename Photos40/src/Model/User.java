@@ -1,4 +1,5 @@
 package Model;
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -8,8 +9,9 @@ import java.util.Date;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class User {
-	//public final static ArrayList<User> UserList = new ArrayList<>();
+public class User implements Serializable{
+	
+	public static final long serialVersionUID = 1L;
 	private String username;
 	private ArrayList<Album> albums;
 	
@@ -128,8 +130,8 @@ public class User {
 		for (int i = 0; i < albums.size(); i++) {
 			if (albums.get(i).getAlbumName().equals(albumName)) {
 				for (int j = 0; j < albums.get(i).getAlbumSize(); j++) {
-					if (albums.get(i).getPhoto(photo.getPath()).equals(photo)) {
-						albums.get(i).getPhoto(photo.getPath()).setCaption(caption);
+					if (albums.get(i).getPhoto(photo.getNamePhoto()).equals(photo)) {
+						albums.get(i).getPhoto(photo.getNamePhoto()).setCaption(caption);
 						return;
 					}
 				}
@@ -148,8 +150,8 @@ public class User {
 		for (int i = 0; i < albums.size(); i++) {
 			if (albums.get(i).getAlbumName().equals(albumName)) {
 				for (int j = 0; j < albums.get(i).getAlbumSize(); j++) {
-					if (albums.get(i).getPhoto(photo.getPath()).equals(photo)) {
-						albums.get(i).getPhoto(photo.getPath()).addTag(tagName, tagValue);
+					if (albums.get(i).getPhoto(photo.getNamePhoto()).equals(photo)) {
+						albums.get(i).getPhoto(photo.getNamePhoto()).addTag(tagName, tagValue);
 						return true;
 					}
 				}
@@ -168,8 +170,8 @@ public class User {
 		for (int i = 0; i < albums.size(); i++) {
 			if (albums.get(i).getAlbumName().equals(albumName)) {
 				for (int j = 0; j < albums.get(i).getAlbumSize(); j++) {
-					if (albums.get(i).getPhoto(photo.getPath()).equals(photo)) {
-						albums.get(i).getPhoto(photo.getPath()).deleteTag(tagName, tagValue);
+					if (albums.get(i).getPhoto(photo.getNamePhoto()).equals(photo)) {
+						albums.get(i).getPhoto(photo.getNamePhoto()).deleteTag(tagName, tagValue);
 						return;
 					}
 				}
@@ -181,10 +183,10 @@ public class User {
 	/*
 	 * @param original original name of album
 	 * @param target the targeted album
-	 * @param path path of photo in the system
+	 * @param namePhoto namePhoto of photo in the system
 	 * @return if you can copy the photo or not
 	 */
-	public boolean copyPhoto (String original, String target, String path) {
+	public boolean copyPhoto (String original, String target, String namePhoto) {
 		String originalAlbumS = "";
 		String targetAlbumS = "";
 		Album originalAlbum = new Album(original);
@@ -207,9 +209,9 @@ public class User {
 		if (originalAlbumS.equals("")|| targetAlbumS.equals("")) return false;
 		/**************************/
 		
-		if (!originalAlbum.hasPhoto(path)) return false;
+		if (!originalAlbum.hasPhoto(namePhoto)) return false;
 		
-		Photo tempPhoto = albums.get(originalIndex).getPhoto(path);
+		Photo tempPhoto = albums.get(originalIndex).getPhoto(namePhoto);
 		albums.get(targetIndex).addPhoto(tempPhoto);
 		
 		return true;
@@ -219,10 +221,10 @@ public class User {
 	/*
 	 * @param original original name of album
 	 * @param target the targeted album
-	 * @param path path of photo in the system
+	 * @param photoName photoName of photo in the system
 	 * @return if you can move the photo or not
 	 */
-	public boolean movePhoto (String original, String target, String path) {
+	public boolean movePhoto (String original, String target, String namePhoto) {
 		String originalAlbumS = "";
 		String targetAlbumS = "";
 		Album originalAlbum = new Album(original);
@@ -245,9 +247,9 @@ public class User {
 		if (originalAlbumS.equals("")|| targetAlbumS.equals("")) return false;
 		/**************************/
 		
-		if (!originalAlbum.hasPhoto(path)) return false;
+		if (!originalAlbum.hasPhoto(namePhoto)) return false;
 		
-		Photo tempPhoto = albums.get(originalIndex).getPhoto(path);
+		Photo tempPhoto = albums.get(originalIndex).getPhoto(namePhoto);
 		albums.get(targetIndex).addPhoto(tempPhoto);
 		albums.get(originalIndex).deletePhoto(tempPhoto);
 		

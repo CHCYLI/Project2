@@ -1,7 +1,5 @@
 package application;
 
-
-
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -42,8 +40,6 @@ public class AdminController {
     
     final static Admin admin = new Admin("admin");
 	
-
-	
 	public void logout(ActionEvent event) throws IOException {
 		
 		Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -73,19 +69,19 @@ public class AdminController {
 		String name = username.getText().strip();
 		
 		if (name.isEmpty()) {
-			Alert alert = new Alert(AlertType.INFORMATION);
+			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error");
-			alert.setHeaderText("Username cannot be empty");
-			alert.setContentText("Please Try Again.");
+			alert.setHeaderText("Empty Name Entry");
+			alert.setContentText("Cannot initialize a user with no name!");
 			alert.showAndWait();
 			return;
 		}
 		
 		if (!admin.createUser(name)) {
-			Alert alert = new Alert(AlertType.INFORMATION);
+			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error");
-			alert.setHeaderText("Username cannot be repeated");
-			alert.setContentText("Please Try Again.");
+			alert.setHeaderText("Duplicate Name Entry");
+			alert.setContentText("Please try a different name.");
 			alert.showAndWait();
 			return;
 		} else {
@@ -100,9 +96,9 @@ public class AdminController {
 		 	int selectedUser = listofnames.getSelectionModel().getSelectedIndex();
 		 	
 		 	if (selectedUser == -1) {
-		 		Alert alert = new Alert(AlertType.INFORMATION);
+		 		Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("Error");
-				alert.setHeaderText("Cannot Delete Unselected User");
+				alert.setHeaderText("No User Selected");
 				alert.setContentText("Please Try Again.");
 				alert.showAndWait();
 				return;

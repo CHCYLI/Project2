@@ -1,10 +1,15 @@
 package Model;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Photo {
-	private String path;
+public class Photo implements Serializable{
+	/**
+	 * 
+	 */
+	//public static final long serialVersionUID = 1L;
+	private String namePhoto;
 	private Calendar cal;
 	private String caption;
 	private HashMap<String,ArrayList<String>> tags;
@@ -12,30 +17,30 @@ public class Photo {
 	
 	
 	/*
-	 * @param path image path in system
+	 * @param namePhoto image name in system
 	 * @param cal date of the image
 	 * @param caption caption of the image
 	 * @tags tags of the image
 	 */
-	public Photo(String path, Calendar cal, String caption, HashMap<String,ArrayList<String>> tags) {
-        this.path = path;
+	public Photo(String namephoto, Calendar cal, String caption, HashMap<String,ArrayList<String>> tags) {
+        this.namePhoto = namephoto;
         this.cal = cal;
         this.caption = caption;
         this.tags = tags;
     }
 	
 	/*
-	 * @newPath set path for image
+	 * @newPath set namePhoto for image
 	 */
-	public void setPath(String newPath) {
-		this.path = newPath;
+	public void setNamePhoto(String newnamePhoto) {
+		this.namePhoto = newnamePhoto;
 	}
 	
 	/*
-	 * @return return path of the image
+	 * @return return namePhoto of the image
 	 */
-	public String getPath() {
-		return path;
+	public String getNamePhoto() {
+		return namePhoto;
 	}
 	
 	/*

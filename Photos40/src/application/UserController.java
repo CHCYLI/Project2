@@ -46,9 +46,9 @@ public class UserController {
 	
 	public void showUsername(ActionEvent e) {
 		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("About Your Information");
+		alert.setTitle("Username");
 		alert.setHeaderText("Username");
-		alert.setContentText("Username: " + user.getUsername());
+		alert.setContentText("Your username is" + user.getUsername());
 		alert.showAndWait();
 	}
 	
@@ -70,8 +70,8 @@ public class UserController {
 	public void help(ActionEvent event) throws IOException {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("About This Page");
-		alert.setHeaderText("Albums Page");
-		alert.setContentText("You can create new albums, rename existing ones, or delete albums altogether. Click on an album to view its photos.");
+		alert.setHeaderText("User Overview Page");
+		alert.setContentText("Here, you can create new albums, rename existing ones, or delete albums altogether. Click on an album to view its contents.");
 		alert.showAndWait();
 	}
 	
@@ -82,7 +82,6 @@ public class UserController {
 		inputDialog.setHeaderText("New Album");
 		inputDialog.setContentText("Enter name for new album...");
 		//inputDialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
-		
         
         Optional<String> nameInput = inputDialog.showAndWait();
         
@@ -107,8 +106,8 @@ public class UserController {
 			//System.out.println("name is empty");
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("ERROR");
-			alert.setHeaderText("Album Name Already Exist");
-			alert.setContentText("Cannot initialize an album with repeated name!");
+			alert.setHeaderText("Duplicate Name Entry");
+			alert.setContentText("Please try different name.");
 			alert.showAndWait();
 			return;
 		}
@@ -117,10 +116,6 @@ public class UserController {
 			//add new album to user's library
 			listOfAlbums.getItems().add(name);
 		}
-        
-        
-        
-        
 	}
 	
 	public void deleteAlbum(ActionEvent event) throws IOException {
@@ -137,8 +132,6 @@ public class UserController {
         
         String name = nameInput.get();
         
-        
-        
         if (name.isEmpty()){
         	Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("ERROR");
@@ -153,7 +146,7 @@ public class UserController {
         	Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("ERROR");
 			alert.setHeaderText("Invalid Name Entry");
-			alert.setContentText("Cannot delete an album that does not exist");
+			alert.setContentText("No album of that name exists!");
 			alert.showAndWait();
 			return;
         }
@@ -162,8 +155,8 @@ public class UserController {
         	listOfAlbums.getItems().remove(indexOfTargetAlbum);
         	Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("Delete Album");
-			alert.setHeaderText("Delete Album");
-			alert.setContentText("Album has been deleted successfully");
+			alert.setHeaderText("Success");
+			alert.setContentText("Album has been deleted successfully.");
 			alert.showAndWait();
 			return;
         }
@@ -205,8 +198,8 @@ public class UserController {
 		if (oldName.isEmpty() || newName.isEmpty()) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Rename Album");
-			alert.setHeaderText("Empty Name");
-			alert.setContentText("Empty name is not valid!");
+			alert.setHeaderText("Empty Name Entry");
+			alert.setContentText("Cannot rename an album to an empty name!");
 			alert.showAndWait();
 			return;
 		}
@@ -217,10 +210,19 @@ public class UserController {
 		} else {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Rename Album");
-			alert.setHeaderText("Rename Album");
+			alert.setHeaderText("Error");
 			alert.setContentText("Please check if the original album name is entered correctly!");
 			alert.showAndWait();
 			return;
 		}
+	}
+	
+	//TO BE DELETED
+	public void test_goToAlbum(ActionEvent event) throws IOException {
+		root = FXMLLoader.load(getClass().getResource("/View/Album.fxml"));
+		stage = (Stage) myMenuBar.getScene().getWindow();
+		scene = new Scene(root,640,480);
+		stage.setScene(scene);
+		stage.show();
 	}
 }

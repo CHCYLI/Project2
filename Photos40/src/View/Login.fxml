@@ -64,7 +64,7 @@
       </Button>
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="220.0" layoutY="132.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="220.0" AnchorPane.topAnchor="120.0">
          <image>
-            <Image url="@uphotos.png" />
+            <Image url="@../Data/uphotos.png" />
          </image>
       </ImageView>
    </children>

@@ -45,8 +45,7 @@
    <children>
       <MenuBar fx:id="myMenuBar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <menus>
-          <Menu mnemonicParsing="false" text="File" />
-            <Menu mnemonicParsing="false" text="User">
+            <Menu mnemonicParsing="false" text="Admin">
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#logout" text="Logout..." />
                </items>
@@ -58,12 +57,10 @@
           </Menu>
         </menus>
       </MenuBar>
-      <ListView layoutY="148.0" maxWidth="200.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="25.0" />
-      <Button layoutX="22.0" layoutY="107.0" mnemonicParsing="false" onMouseClicked="#createUser" text="Create User" />
-      <Button layoutX="22.0" layoutY="190.0" mnemonicParsing="false" onMouseClicked="#deleteUser" text="Delete User" />
-      <ListView fx:id="listofnames" layoutX="208.0" layoutY="34.0" prefHeight="439.0" prefWidth="423.0" />
-      <TextField fx:id="username" layoutX="25.0" layoutY="75.0" />
-      <Label layoutX="33.0" layoutY="44.0" text="Welcome, Administrator." />
-      <Label layoutX="19.0" layoutY="150.0" text="Select user in the list to delete" />
+      <Button layoutX="22.0" layoutY="100.0" mnemonicParsing="false" onMouseClicked="#createUser" text="Create User" AnchorPane.leftAnchor="25.0" />
+      <Button layoutX="22.0" layoutY="130.0" mnemonicParsing="false" onMouseClicked="#deleteUser" text="Delete SelectedUser" AnchorPane.leftAnchor="25.0" />
+      <ListView fx:id="listofnames" layoutX="208.0" prefHeight="439.0" prefWidth="423.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="35.0" />
+      <TextField fx:id="username" layoutX="25.0" layoutY="65.0" promptText="Enter new username" AnchorPane.leftAnchor="25.0" />
+      <Label layoutX="33.0" layoutY="40.0" text="Welcome, Administrator." AnchorPane.leftAnchor="25.0" />
    </children>
 </AnchorPane>

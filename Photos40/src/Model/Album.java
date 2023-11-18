@@ -1,8 +1,12 @@
 package Model;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Album {
-	//public final static ArrayList<Album> AlbumList = new ArrayList<>();
+public class Album implements Serializable {
+	/**
+	 * 
+	 */
+	//public static final long serialVersionUID = 1L;
 	private String albumName;
 	private ArrayList<Photo> albumPhoto;
 	
@@ -33,7 +37,7 @@ public class Album {
 	 * @return if added succesfully or not
 	 */
 	public boolean addPhoto(Photo importedPhoto) {
-		if (hasPhoto(importedPhoto.getPath())) {
+		if (hasPhoto(importedPhoto.getNamePhoto())) {
 			return false;
 		}
 		albumPhoto.add(importedPhoto);
@@ -46,7 +50,7 @@ public class Album {
 	 */
 	public boolean deletePhoto(Photo targetPhoto) {
 		for (int i = 0; i < albumPhoto.size(); i++) {
-			if (targetPhoto.getPath().equals(albumPhoto.get(i).getPath())) {
+			if (targetPhoto.getNamePhoto().equals(albumPhoto.get(i).getNamePhoto())) {
 				albumPhoto.remove(i);
 				return true;
 			}
@@ -63,12 +67,12 @@ public class Album {
 	
 	
 	/*
-	 * @param path path of photo
-	 * @return return the photo or null if not found (by path)
+	 * @param getNamePhoto getNamePhoto of photo
+	 * @return return the photo or null if not found (by getNamePhoto)
 	 */
-	public Photo getPhoto(String path) {
+	public Photo getPhoto(String getNamePhoto) {
 		for (int i = 0; i < albumPhoto.size(); i++) {
-			if (path.equals(albumPhoto.get(i).getPath())) return albumPhoto.get(i);
+			if (getNamePhoto.equals(albumPhoto.get(i).getNamePhoto())) return albumPhoto.get(i);
 		}
 		
 		return null;
@@ -87,9 +91,9 @@ public class Album {
 	 * @param path path of photo
 	 * @return return if the album has the photo or not
 	 */
-	public boolean hasPhoto(String path) {
+	public boolean hasPhoto(String getNamePhoto) {
 		for (int i = 0; i < albumPhoto.size(); i++) {
-			if (path.equals(albumPhoto.get(i).getPath())) return true;
+			if (getNamePhoto.equals(albumPhoto.get(i).getNamePhoto())) return true;
 		}
 		
 		return false;
