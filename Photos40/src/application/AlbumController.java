@@ -3,6 +3,8 @@ package application;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,12 +22,15 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.Node;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import Model.Photo;
+import Model.User;
 
 public class AlbumController {
 	
 	private Stage stage;
 	private Scene scene;
 	private Parent root;
+	private User albumUser = UserController.user;
 	
 	@FXML
 	ImageView imageView;
@@ -34,7 +39,9 @@ public class AlbumController {
 	MenuBar myMenuBar;
 	
 	@FXML
-    private ListView<String> listOfAlbums;
+    //private ListView<String> photoList = new ListView<String>(albumUser.getPhotoNameList(UserController.goToAlbumName));
+	private ListView<String> photoList;
+	
 	
 	public void returnToUser(ActionEvent event) throws IOException {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -74,6 +81,12 @@ public class AlbumController {
                   
         if (file != null) {
             Image image = new Image(file.toURI().toString());
+            String path = file.toURI().toString();
+            Photo tempPhoto = new Photo(path.substring(path.lastIndexOf("/")+1), Calendar.getInstance(), null, null);
+            //temp calendar
+            UserController.user.addPhoto(UserController.goToAlbumName, tempPhoto);
+            photoList.getItems().add(path.substring(path.lastIndexOf("/")+1));
+            //System.out.println(path.substring(path.lastIndexOf("/")+1));
             imageView.setImage(image);
         }
     }
@@ -86,4 +99,5 @@ public class AlbumController {
 	 * menubar: add photo, return to albums page, search
 	 * context menu: del, caption curr photo, disp in new window, add/del tag of curr photo, copy/paste between albums
 	 */
+	
 }

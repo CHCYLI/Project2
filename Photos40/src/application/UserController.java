@@ -37,7 +37,8 @@ public class UserController {
 	private Stage stage;
 	private Scene scene;
 	private Parent root;
-	final User user = new User("user"); //temporary name
+	public static User user = new User("user"); //temporary name
+	public static String goToAlbumName;
 	@FXML
 	MenuBar myMenuBar;
 	
@@ -219,10 +220,33 @@ public class UserController {
 	
 	//TO BE DELETED
 	public void test_goToAlbum(ActionEvent event) throws IOException {
-		root = FXMLLoader.load(getClass().getResource("/View/Album.fxml"));
-		stage = (Stage) myMenuBar.getScene().getWindow();
-		scene = new Scene(root,640,480);
-		stage.setScene(scene);
-		stage.show();
+		TextInputDialog inputDialog = new TextInputDialog();
+		inputDialog.setTitle("Choose Albun");
+		inputDialog.setHeaderText("Album Openner");
+		inputDialog.setContentText("Enter name of the album you want to access...");
+		//inputDialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
+        
+        Optional<String> nameInput = inputDialog.showAndWait();
+        
+        if(!nameInput.isPresent()) {
+			return;
+        }
+        
+        goToAlbumName = nameInput.get();
+        if (user.getAlbumByName(goToAlbumName) == null) {
+        	Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Enter Album");
+			alert.setHeaderText("Error");
+			alert.setContentText("Please check if the album name is entered correctly!");
+			alert.showAndWait();
+			return;
+        } else {
+        	root = FXMLLoader.load(getClass().getResource("/View/Album.fxml"));
+    		stage = (Stage) myMenuBar.getScene().getWindow();
+    		scene = new Scene(root,640,480);
+    		stage.setScene(scene);
+    		stage.show();
+        }
 	}
+	
 }

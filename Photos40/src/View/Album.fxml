@@ -63,7 +63,7 @@
           </Menu>
         </menus>
       </MenuBar>
-      <ListView layoutY="148.0" maxWidth="200.0" prefHeight="415.0" prefWidth="200.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="25.0" />
+      <ListView fx:id="photoList" layoutY="148.0" maxWidth="200.0" prefHeight="415.0" prefWidth="200.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="25.0" />
       <AnchorPane layoutX="200.0" layoutY="25.0" prefHeight="406.0" prefWidth="364.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
          <children>
             <ImageView fx:id="imageView" fitHeight="300.0" fitWidth="400.0" layoutX="20.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="78.0" />

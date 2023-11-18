@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -85,6 +86,26 @@ public class User implements Serializable{
 			}
 		}
 		return -1;
+	}
+	
+	/*
+	 * @param name name of the album
+	 * @return return the album
+	 */
+	public Album getAlbumByName (String name) {
+		for (int i = 0; i < albums.size(); i++) {
+			if (name.equals(albums.get(i).getAlbumName())) {
+				return albums.get(i);
+			}
+		}
+		return null;
+	}
+	
+	/*
+	 * @return albums
+	 */
+	public ArrayList<Album> getAlbumArrayList() {
+		return albums;
 	}
 	
 	/*
@@ -324,5 +345,31 @@ public class User implements Serializable{
 		}
 		
 		return FXCollections.observableArrayList(photoList);
+	}
+	
+	/*
+	 * @param albumName name of album
+	 * @return return a list of photos of the specified album
+	 */
+	public ObservableList<Photo> getPhotoList(String albumName) {
+		List<Photo> tempList = new ArrayList<Photo>();
+		Album tempAlbum = getAlbumByName(albumName);
+		for (int i = 0; i < tempAlbum.getAlbumSize(); i++) {
+			tempList.add(tempAlbum.getPhoto(i));
+		}
+		return FXCollections.observableList(tempList);
+	}
+	
+	/*
+	 * @param albumName name of album
+	 * @return return a list of photo names of the specified album
+	 */
+	public ObservableList<String> getPhotoNameList(String albumName) {
+		List<String> tempList = new ArrayList<String>();
+		Album tempAlbum = getAlbumByName(albumName);
+		for (int i = 0; i < tempAlbum.getAlbumSize(); i++) {
+			tempList.add(tempAlbum.getPhoto(i).getNamePhoto());
+		}
+		return FXCollections.observableList(tempList);
 	}
 }
