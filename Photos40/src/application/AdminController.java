@@ -1,9 +1,13 @@
 package application;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
 import Model.Admin;
+import Model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,6 +32,7 @@ public class AdminController {
 	private Stage stage;
 	private Scene scene;
 	private Parent root;
+	private Scene preScene;
 	
 	@FXML
 	MenuBar myMenuBar;
@@ -39,6 +44,10 @@ public class AdminController {
     private ListView<String> listofnames;
     
     final static Admin admin = new Admin("admin");
+    
+    public void setPrescene(Scene tempScene) {
+    	this.preScene = tempScene;
+    }
 	
 	public void logout(ActionEvent event) throws IOException {
 		
@@ -48,11 +57,20 @@ public class AdminController {
 		alert.setContentText("Changes will be saved.");
 		
 		if(alert.showAndWait().get() == ButtonType.OK) {
-			root = FXMLLoader.load(getClass().getResource("/View/Login.fxml"));
+			//root = FXMLLoader.load(getClass().getResource("/View/Login.fxml"));
+			//stage = (Stage) myMenuBar.getScene().getWindow();
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/View/Login.fxml"));
+            scene = new Scene(fxmlLoader.load(), 640, 480);
+            LoginController controller = fxmlLoader.getController();
+    		controller.setPrescene(myMenuBar.getScene());
+			
+			
 			stage = (Stage) myMenuBar.getScene().getWindow();
-			scene = new Scene(root);
-			stage.setScene(scene);
+			stage.setScene(preScene);
 			stage.show();
+			//scene = new Scene(root);
+			//stage.setScene(scene);
+			//stage.show();
 		}
 	}
 	
@@ -87,7 +105,13 @@ public class AdminController {
 		} else {
 			//System.out.println(admin.usernameList().size());
 			listofnames.getItems().add(name);
+			FileOutputStream file = new FileOutputStream("data/" + name+ ".txt");
 			//listofnames.getItems().add(admin.usernameList().size());
+			char[] tempArray = name.toCharArray();
+			for (int i = 0; i < tempArray.length; i++) {
+				file.write(tempArray[i]);
+			}
+			file.close();
 		}
 	}
 	
@@ -106,7 +130,9 @@ public class AdminController {
 		 	//System.out.println(selectedUser);
 		 	admin.deleteUser(selectedUser);
 		 	
-		 	listofnames.getItems().remove(selectedUser);
+		 	String name = listofnames.getItems().remove(selectedUser);
+		 	File file = new File("data/" + name + ".txt");
+		 	file.delete();
 	    }
 	
 	

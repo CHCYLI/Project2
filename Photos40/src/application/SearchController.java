@@ -2,9 +2,6 @@ package application;
 
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
 
@@ -28,13 +25,12 @@ import javafx.stage.Stage;
 import Model.Photo;
 import Model.User;
 
-public class AlbumController {
+public class SearchController {
 	
 	private Stage stage;
-	private Scene albumScene;
+	private Scene scene;
 	private Parent root;
-	private User user = UserController.user;
-	private Scene preScene;
+	private User albumUser = UserController.user;
 	
 	@FXML
 	ImageView imageView;
@@ -46,37 +42,17 @@ public class AlbumController {
     //private ListView<String> photoList = new ListView<String>(albumUser.getPhotoNameList(UserController.goToAlbumName));
 	private ListView<String> photoList;
 	
-	public void setPrescene(Scene tempScene) {
-		this.preScene = tempScene; 
-	}
-	
-	
-	public void returnToUser(ActionEvent event) throws IOException {
-		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Return?");
-		alert.setHeaderText("Return to Album Selection?");
-		alert.setContentText("Changes will be saved.");
-		
-		if(alert.showAndWait().get() == ButtonType.OK) {
-			//root = FXMLLoader.load(getClass().getResource("/View/User.fxml"));
-			stage = (Stage) myMenuBar.getScene().getWindow();
-			//scene = new Scene(root,640,480);
-			stage.setScene(preScene);
-			stage.show();
-		}
-	}
-	
 	public void help(ActionEvent event) throws IOException {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		//String albumName = xxx.get();
 		alert.setTitle("About This Page");
-		alert.setHeaderText("Album Page");
-		alert.setContentText("Here, you can add, rename or delete photos, search for a specific photo, ");
+		alert.setHeaderText("Search Results Page");
+		alert.setContentText("Here are the results of your search query. You can choose to create a new album with them.");
 		alert.showAndWait();
 	}
 	
 	
-	public void openFile(ActionEvent event) throws FileNotFoundException {
+	public void openFile(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         
         //Set extension filter
@@ -90,25 +66,12 @@ public class AlbumController {
         if (file != null) {
             Image image = new Image(file.toURI().toString());
             String path = file.toURI().toString();
-            Photo tempPhoto = new Photo(file.getPath(), Calendar.getInstance(), null, null);
+            Photo tempPhoto = new Photo(path.substring(path.lastIndexOf("/")+1), Calendar.getInstance(), null, null);
             //temp calendar
-            user.addPhoto(UserController.goToAlbumName, tempPhoto);
-            photoList.getItems().add(file.getPath());
-            //photoList.getItems().add(path.substring(path.lastIndexOf("/")+1));
+            UserController.user.addPhoto(UserController.goToAlbumName, tempPhoto);
+            photoList.getItems().add(path.substring(path.lastIndexOf("/")+1));
             //System.out.println(path.substring(path.lastIndexOf("/")+1));
-            //File imageDir = new File("D:\\images\\");
-            //FileInputStream in = new FileInputStream(path);
-            //FileOutputStream out = new FileOutputStream("../data/" + path);
-            if (!user.addPhoto(UserController.goToAlbumName, tempPhoto)) {
-            	Alert alert = new Alert(AlertType.INFORMATION);
-            	alert.setTitle("Error?");
-        		alert.setHeaderText("Photo already exists");
-        		alert.setContentText("Plase choose other pictures.");
-            }
             imageView.setImage(image);
         }
     }
-	
-	
-	
 }

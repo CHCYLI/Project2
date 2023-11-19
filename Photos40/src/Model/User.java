@@ -1,4 +1,8 @@
 package Model;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -371,5 +375,23 @@ public class User implements Serializable{
 			tempList.add(tempAlbum.getPhoto(i).getNamePhoto());
 		}
 		return FXCollections.observableList(tempList);
+	}
+	
+	/*
+	 * @return the names of album Arraylist
+	 */
+	public ObservableList<String> getAlbumNameList() {
+		List<String> tempList = new ArrayList<String>();
+		for (int i = 0; i < albums.size(); i++) {
+			tempList.add(albums.get(i).getAlbumName());
+		}
+		return FXCollections.observableList(tempList);
+	}
+	
+	public User findUser () throws IOException, FileNotFoundException, ClassNotFoundException {
+		FileInputStream inFile = new FileInputStream("../data/user.txt");
+		ObjectInputStream inStream = new ObjectInputStream(inFile);
+		User user = (User)inStream.readObject();
+		return user;
 	}
 }

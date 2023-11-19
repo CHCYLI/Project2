@@ -32,11 +32,12 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
@@ -47,12 +48,12 @@
           <Menu mnemonicParsing="false" text="File">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#openFile" text="Add photo..." />
-                  <MenuItem mnemonicParsing="false" text="Search..." />
+                  <MenuItem mnemonicParsing="false" onAction="#openFile" text="Delete photo..." />
+                  <MenuItem mnemonicParsing="false" onAction="#openFile" text="Rename photo..." />
             </items>
           </Menu>
-            <Menu mnemonicParsing="false" text="View">
+            <Menu mnemonicParsing="false" text="Back">
                <items>
-                  <MenuItem mnemonicParsing="false" text="View in new window..." />
                   <MenuItem mnemonicParsing="false" onAction="#returnToUser" text="Return to album view..." />
                </items>
             </Menu>
@@ -63,12 +64,19 @@
           </Menu>
         </menus>
       </MenuBar>
-      <ListView fx:id="photoList" layoutY="148.0" maxWidth="200.0" prefHeight="415.0" prefWidth="200.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="25.0" />
+      <ListView fx:id="photoList" layoutY="50.0" maxWidth="200.0" prefHeight="390.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="50.0">
+         <contextMenu>
+            <ContextMenu>
+              <items>
+                <MenuItem mnemonicParsing="false" text="biech" />
+              </items>
+            </ContextMenu>
+         </contextMenu></ListView>
       <AnchorPane layoutX="200.0" layoutY="25.0" prefHeight="406.0" prefWidth="364.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
          <children>
-            <ImageView fx:id="imageView" fitHeight="300.0" fitWidth="400.0" layoutX="20.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="78.0" />
+            <ImageView fx:id="imageView" fitHeight="390.0" fitWidth="400.0" layoutX="20.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" />
          </children>
       </AnchorPane>
-      <TextField layoutX="10.0" layoutY="443.0" prefHeight="23.0" prefWidth="190.0" promptText="Search..." AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" />
+      <Label layoutY="25.0" prefHeight="25.0" prefWidth="150.0" text="List of Photos" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="25.0" />
    </children>
 </AnchorPane>

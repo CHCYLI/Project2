@@ -21,6 +21,7 @@ public class LoginController {
 	private Stage stage;
 	private Scene scene;
 	private Parent root;
+	private Scene preScene;
 	
 	@FXML
 	Button loginButton;
@@ -28,16 +29,40 @@ public class LoginController {
 	@FXML
 	TextField usernameInput;
 	
+	public void setPrescene(Scene tempScene) {
+		this.preScene = tempScene;
+	}
+	
 	public void switchToSubsystem(ActionEvent event) throws IOException {
 		
 		String enteredText = usernameInput.getText();
 		
 		//if == admin: Admin subsystem
 		if (enteredText.equals("admin")) {
-			root = FXMLLoader.load(getClass().getResource("/View/Admin.fxml"));
+			//root = FXMLLoader.load(getClass().getResource("/View/Admin.fxml"));
+			if (preScene != null) {
+				stage = (Stage) loginButton.getScene().getWindow();
+				stage.setScene(preScene);
+				stage.show();
+			}
+			
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/View/Admin.fxml"));
+	        scene = new Scene(fxmlLoader.load(), 640, 480);
+	        AdminController controller = fxmlLoader.getController();
+			controller.setPrescene(loginButton.getScene());
+			
 		}
 		else if (enteredText.equals("user")) {
-			root = FXMLLoader.load(getClass().getResource("/View/User.fxml"));
+			//root = FXMLLoader.load(getClass().getResource("/View/User.fxml"));
+			if (preScene != null) {
+				stage = (Stage) loginButton.getScene().getWindow();
+				stage.setScene(preScene);
+				stage.show();
+			}
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/View/User.fxml"));
+	        scene = new Scene(fxmlLoader.load(), 640, 480);
+	        UserController controller = fxmlLoader.getController();
+			controller.setPrescene(loginButton.getScene());
 		}
 		else {
 			Alert alert = new Alert(AlertType.ERROR);
@@ -48,9 +73,13 @@ public class LoginController {
 			return;
 		}
 		
-		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-		scene = new Scene(root,640,480);
-		stage.setScene(scene);
+		
+		stage = (Stage) loginButton.getScene().getWindow();
+        stage.setScene(scene);
 		stage.show();
+		
+		//stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		//scene = new Scene(root,640,480);
+		
 	}
 }

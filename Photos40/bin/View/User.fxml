@@ -32,6 +32,7 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
+<?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
@@ -51,6 +52,12 @@
               <MenuItem mnemonicParsing="false" onAction="#createAlbum" text="New album..." />
                   <MenuItem mnemonicParsing="false" onAction="#deleteAlbum" text="Delete album..." />
                   <MenuItem mnemonicParsing="false" onAction="#renameAlbum" text="Rename album..." />
+                  <Menu mnemonicParsing="false" text="Search...">
+                    <items>
+                      <MenuItem mnemonicParsing="false" onAction="#searchByDate" text="By date..." />
+                        <MenuItem mnemonicParsing="false" onAction="#searchByTag" text="By tag..." />
+                    </items>
+                  </Menu>
             </items>
           </Menu>
             <Menu mnemonicParsing="false" text="User">
@@ -64,14 +71,21 @@
               <MenuItem mnemonicParsing="false" onAction="#help" text="About..." />
             </items>
           </Menu>
-            <Menu mnemonicParsing="false" text="#TEST DELETE LATER#">
+            <Menu mnemonicParsing="false" text="Go To Album">
                <items>
-                  <MenuItem mnemonicParsing="false" onAction="#test_goToAlbum" text="#goToAlbum#" />
+                  <MenuItem mnemonicParsing="false" onAction="#goToAlbum" text="Go To Album" />
                </items>
             </Menu>
         </menus>
       </MenuBar>
-      <ListView fx:id="listOfAlbums" layoutY="148.0" maxWidth="200.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="50.0" />
+      <ListView fx:id="listOfAlbums" layoutY="148.0" maxWidth="200.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="50.0">
+         <contextMenu>
+            <ContextMenu>
+              <items>
+                <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+              </items>
+            </ContextMenu>
+         </contextMenu></ListView>
       <AnchorPane layoutX="200.0" layoutY="25.0" prefHeight="455.0" prefWidth="440.0">
          <children>
             <Label alignment="CENTER" layoutX="20.0" layoutY="273.0" prefHeight="60.0" prefWidth="400.0" text="Welcome to uPhotos!" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
