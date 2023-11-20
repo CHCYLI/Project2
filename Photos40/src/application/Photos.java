@@ -1,6 +1,7 @@
 package application;
 	
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
@@ -38,7 +39,7 @@ public class Photos extends Application {
 		
 		if(alert.showAndWait().get() == ButtonType.OK) {
 			System.out.println("uPhotos closed successfully");
-			stage.close();
+			Platform.exit();
 		}
 	}
 	

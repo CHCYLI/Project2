@@ -40,6 +40,7 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.AlbumController">
    <children>
@@ -52,6 +53,15 @@
                   <MenuItem mnemonicParsing="false" onAction="#openFile" text="Rename photo..." />
             </items>
           </Menu>
+            <Menu mnemonicParsing="false" text="Photo">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#openFile" text="Copy..." />
+                  <MenuItem mnemonicParsing="false" onAction="#openFile" text="Paste..." />
+                  <MenuItem mnemonicParsing="false" onAction="#openFile" text="Caption..." />
+                  <MenuItem mnemonicParsing="false" onAction="#openFile" text="Add tag..." />
+                  <MenuItem mnemonicParsing="false" onAction="#openFile" text="Delete tag..." />
+               </items>
+            </Menu>
             <Menu mnemonicParsing="false" text="Back">
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#returnToUser" text="Return to album view..." />
@@ -75,6 +85,12 @@
       <AnchorPane layoutX="200.0" layoutY="25.0" prefHeight="406.0" prefWidth="364.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
          <children>
             <ImageView fx:id="imageView" fitHeight="390.0" fitWidth="400.0" layoutX="20.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" />
+            <Label layoutX="20.0" layoutY="410.0" prefHeight="25.0" prefWidth="150.0" text="(filename goes here)">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label layoutX="220.0" layoutY="410.0" prefHeight="25.0" prefWidth="150.0" text="(caption goes here)" />
          </children>
       </AnchorPane>
       <Label layoutY="25.0" prefHeight="25.0" prefWidth="150.0" text="List of Photos" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="25.0" />

@@ -52,6 +52,7 @@
               <MenuItem mnemonicParsing="false" onAction="#createAlbum" text="New album..." />
                   <MenuItem mnemonicParsing="false" onAction="#deleteAlbum" text="Delete album..." />
                   <MenuItem mnemonicParsing="false" onAction="#renameAlbum" text="Rename album..." />
+                  <MenuItem mnemonicParsing="false" onAction="#goToAlbum" text="View contents of an album..." />
                   <Menu mnemonicParsing="false" text="Search...">
                     <items>
                       <MenuItem mnemonicParsing="false" onAction="#searchByDate" text="By date..." />
@@ -71,11 +72,6 @@
               <MenuItem mnemonicParsing="false" onAction="#help" text="About..." />
             </items>
           </Menu>
-            <Menu mnemonicParsing="false" text="Go To Album">
-               <items>
-                  <MenuItem mnemonicParsing="false" onAction="#goToAlbum" text="Go To Album" />
-               </items>
-            </Menu>
         </menus>
       </MenuBar>
       <ListView fx:id="listOfAlbums" layoutY="148.0" maxWidth="200.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="50.0">
@@ -88,16 +84,21 @@
          </contextMenu></ListView>
       <AnchorPane layoutX="200.0" layoutY="25.0" prefHeight="455.0" prefWidth="440.0">
          <children>
-            <Label alignment="CENTER" layoutX="20.0" layoutY="273.0" prefHeight="60.0" prefWidth="400.0" text="Welcome to uPhotos!" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
-               <font>
-                  <Font name="Comic Sans MS" size="28.0" />
-               </font>
-            </Label>
-            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="120.0" layoutY="123.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView blendMode="OVERLAY" fitHeight="150.0" fitWidth="200.0" layoutX="120.0" layoutY="153.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../Data/uphotos.png" />
                </image>
             </ImageView>
+            <Label alignment="CENTER" layoutX="20.0" layoutY="123.0" prefHeight="60.0" prefWidth="400.0" text="Welcome to uPhotos!" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
+               <font>
+                  <Font name="Comic Sans MS" size="28.0" />
+               </font>
+            </Label>
+            <Label alignment="TOP_CENTER" layoutX="20.0" layoutY="183.0" prefHeight="150.0" prefWidth="400.0" text="You can manage your albums, view pictures in albums, or search for photos by time or tag. Have fun!" wrapText="true">
+               <font>
+                  <Font name="Comic Sans MS" size="20.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
       <Label layoutX="14.0" layoutY="25.0" prefHeight="25.0" prefWidth="150.0" text="List of Albums" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="25.0" />

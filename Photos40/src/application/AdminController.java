@@ -33,6 +33,7 @@ public class AdminController {
 	private Scene scene;
 	private Parent root;
 	private Scene preScene;
+	final static Admin admin = new Admin();
 	
 	@FXML
 	MenuBar myMenuBar;
@@ -43,7 +44,12 @@ public class AdminController {
     @FXML
     private ListView<String> listofnames;
     
-    final static Admin admin = new Admin("admin");
+    public void initialize() throws IOException {
+    	//listofnames = new ListView<String> (Admin.getUsernameListByFile());
+    	listofnames.setItems(Admin.getUsernameListByFile());
+    	//listofnames.getItems();
+    	//System.out.println("initialize");
+    }
     
     public void setPrescene(Scene tempScene) {
     	this.preScene = tempScene;
@@ -98,20 +104,48 @@ public class AdminController {
 		if (!admin.createUser(name)) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error");
-			alert.setHeaderText("Duplicate Name Entry");
+			alert.setHeaderText("Duplicate Name Entry or Admin Name");
 			alert.setContentText("Please try a different name.");
 			alert.showAndWait();
 			return;
 		} else {
 			//System.out.println(admin.usernameList().size());
-			listofnames.getItems().add(name);
-			FileOutputStream file = new FileOutputStream("data/" + name+ ".txt");
+			//listofnames.getItems().add(name);
+			
+			FileInputStream file = new FileInputStream("data/user.txt");
+			//String readText = file.read();
+			int ch;
+			
+			FileOutputStream tempfile = new FileOutputStream("data/tempuser.txt");
 			//listofnames.getItems().add(admin.usernameList().size());
-			char[] tempArray = name.toCharArray();
-			for (int i = 0; i < tempArray.length; i++) {
-				file.write(tempArray[i]);
+			while ((ch = file.read()) != -1) {
+				tempfile.write(ch);
 			}
+			
+			
+			char[] tempArray = name.toCharArray();
+			tempfile.write(',');
+			for (int i = 0; i < tempArray.length; i++) {
+				tempfile.write(tempArray[i]);
+			}
+			
+			tempfile.close();
 			file.close();
+			
+			File oldFile = new File("data/user.txt");
+			oldFile.delete();
+			
+			FileInputStream tempUserFile = new FileInputStream("data/tempuser.txt");
+			FileOutputStream newfile = new FileOutputStream("data/user.txt");
+			while ((ch = tempUserFile.read()) != -1) {
+				newfile.write(ch);
+			}
+			
+			tempUserFile.close();
+			newfile.close();
+			File ofile = new File ("data/tempuser.txt");
+			ofile.delete();
+			initialize();
 		}
 	}
 	
@@ -128,11 +162,41 @@ public class AdminController {
 				return;
 		 	}
 		 	//System.out.println(selectedUser);
-		 	admin.deleteUser(selectedUser);
+		 	//admin.deleteUser(selectedUser);
+		 	
 		 	
 		 	String name = listofnames.getItems().remove(selectedUser);
-		 	File file = new File("data/" + name + ".txt");
-		 	file.delete();
+		 	//File file = new File("data/" + name + ".txt");
+		 	//file.delete();
+		 	FileInputStream file = new FileInputStream("data/user.txt");
+			//String readText = file.read();
+			int ch;
+			int commaCount = 0;
+			FileOutputStream tempfile = new FileOutputStream("data/tempuser.txt");
+			//listofnames.getItems().add(admin.usernameList().size());
+			while ((ch = file.read()) != -1) {
+				if (ch == ',') commaCount++;
+				if (commaCount-1 != selectedUser)
+				tempfile.write(ch);
+			}
+			
+			tempfile.close();
+			file.close();
+			
+			File oldFile = new File("data/user.txt");
+			oldFile.delete();
+			
+			FileInputStream tempUserFile = new FileInputStream("data/tempuser.txt");
+			FileOutputStream newfile = new FileOutputStream("data/user.txt");
+			while ((ch = tempUserFile.read()) != -1) {
+				newfile.write(ch);
+			}
+			
+			tempUserFile.close();
+			newfile.close();
+			File ofile = new File ("data/tempuser.txt");
+			ofile.delete();
+			initialize();
 	    }
 	
 	
