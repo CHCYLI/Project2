@@ -14,8 +14,6 @@ public class Photo implements Serializable{
 	private String caption;
 	private HashMap<String,ArrayList<String>> tags;
 	
-	
-	
 	/*
 	 * @param namePhoto image name in system
 	 * @param cal date of the image

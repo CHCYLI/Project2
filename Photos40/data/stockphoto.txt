@@ -1,0 +1,1 @@
+data/Bliss.jpg::album:stockAlbum;caption:none;tags:none;;data/Hills.jpg::album:stockAlbum;caption:none;tags:none;;data/Lilies.jpg::album:stockAlbum;caption:none;tags:none;;data/Sunset.jpg::album:stockAlbum;caption:none;tags:none;;data/Winter.jpg::album:stockAlbum;caption:none;tags:none;;

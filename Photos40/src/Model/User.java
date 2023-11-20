@@ -54,7 +54,7 @@ public class User implements Serializable{
 			if (albumName.equals(albums.get(i).getAlbumName())) return false;
 		}
 		
-		albums.add(new Album(albumName));
+		albums.add(new Album(albumName, username));
 		return true;
 	}
 	
@@ -223,7 +223,7 @@ public class User implements Serializable{
 	public boolean copyPhoto (String original, String target, String namePhoto) {
 		String originalAlbumS = "";
 		String targetAlbumS = "";
-		Album originalAlbum = new Album(original);
+		Album originalAlbum = new Album(original, username);
 		int originalIndex = -1;
 		int targetIndex = -1;
 		for (int i = 0; i < albums.size(); i++) {
@@ -261,7 +261,7 @@ public class User implements Serializable{
 	public boolean movePhoto (String original, String target, String namePhoto) {
 		String originalAlbumS = "";
 		String targetAlbumS = "";
-		Album originalAlbum = new Album(original);
+		Album originalAlbum = new Album(original, username);
 		int originalIndex = -1;
 		int targetIndex = -1;
 		for (int i = 0; i < albums.size(); i++) {
@@ -468,7 +468,7 @@ public class User implements Serializable{
 		//Make sure next time running the program can detect the duplicate name
 		albums.clear();
 		for (int i = 0; i < finalList.size(); i++) {
-			albums.add(new Album(finalList.get(i)));
+			albums.add(new Album(finalList.get(i), username));
 		}
 		return FXCollections.observableList(finalList);
 	}

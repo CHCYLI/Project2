@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Optional;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,6 +17,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -36,6 +39,8 @@ public class SearchController {
 	private Scene scene;
 	private Parent root;
 	private User albumUser = UserController.user;
+	private String selectedPath = "";
+	
 	ObservableList<Photo> searchMatches;
 	
 	@FXML
@@ -45,10 +50,33 @@ public class SearchController {
 	MenuBar myMenuBar;
 	
 	@FXML
+	Label filenameDisplay;
+	
+	@FXML
+	Label captionDisplay;
+	
+	@FXML
     //private ListView<String> photoList = new ListView<String>(albumUser.getPhotoNameList(UserController.goToAlbumName));
 	private ListView<String> photoList;
 	
-	public void help(ActionEvent event) throws IOException {
+	public void displaySelected() { //done?
+		photoList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+		    @Override
+		    public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+		    	selectedPath = photoList.getSelectionModel().getSelectedItem();
+		        Image image = new Image(selectedPath);
+		        imageView.setImage(image);
+		        
+		        String selectedFileName = selectedPath.substring(selectedPath.lastIndexOf("/")+1);
+		        //String selected Caption = ...
+		        
+		        filenameDisplay.setText(selectedFileName);
+		        //captionDisplay.setText...
+		    }
+		});
+	}
+	
+	public void help(ActionEvent event) throws IOException { //done
 		Alert alert = new Alert(AlertType.INFORMATION);
 		//String albumName = xxx.get();
 		alert.setTitle("About This Page");
@@ -57,7 +85,7 @@ public class SearchController {
 		alert.showAndWait();
 	}
 	
-	public void addAlbum(ActionEvent event) {
+	public void addAlbum(ActionEvent event) { //NEEDS WORK
 		TextInputDialog inputDialog = new TextInputDialog();
 		inputDialog.setTitle("New Album");
 		inputDialog.setHeaderText("New Album");
@@ -91,7 +119,7 @@ public class SearchController {
 			return;
 		}
 		else {
-			Album newSearchAlbum = new Album(name);
+			Album newSearchAlbum = new Album(name, albumUser.getUsername());
 			//for loop: add photos in list
 			//ArrayList<Album> albums in User
 			//ArrayList<Photo> albumPhoto in Album

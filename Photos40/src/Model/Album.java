@@ -1,6 +1,14 @@
 package Model;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class Album implements Serializable {
 	/**
@@ -8,13 +16,15 @@ public class Album implements Serializable {
 	 */
 	//public static final long serialVersionUID = 1L;
 	private String albumName;
+	private String albumOwner;
 	private ArrayList<Photo> albumPhoto;
 	
 	/*
 	 * @param name name of the album
 	 */
-	public Album(String name) {
+	public Album(String name, String user) {
 		this.albumName = name;
+		this.albumOwner = user;
 		this.albumPhoto = new ArrayList<Photo>();
 	}
 	
@@ -30,6 +40,10 @@ public class Album implements Serializable {
 	 */
 	public String getAlbumName() {
 		return albumName;
+	}
+	
+	public String getUser() {
+		return albumOwner;
 	}
 	
 	/*
@@ -86,6 +100,59 @@ public class Album implements Serializable {
 		return albumPhoto.get(index);
 	}
 	
+	public ObservableList<String> getPhotoNameListByFile() throws IOException {
+		File f = new File("data/"+ albumOwner +"photo.txt");
+		if(!f.exists() && !f.isDirectory()) { 
+			FileOutputStream createfile = new FileOutputStream("data/"+ albumOwner +"photo.txt");
+			createfile.close();
+		}
+		
+		List<String> finalList = new ArrayList<String>();
+		FileInputStream file =  new FileInputStream("data/"+ albumOwner +"photo.txt");
+			//System.out.println("Something here");
+		
+		int ch;
+		boolean firstComma = false;
+		ArrayList<Character> charArrayList = new ArrayList<Character>();
+		
+			while ((ch = file.read()) != -1) {
+				//System.out.println("-1!");
+				if (ch == ',' && firstComma == false) {
+					firstComma = true;
+					//System.out.println("first one!");
+					continue;
+				} else if (ch == ','){
+					StringBuilder builder = new StringBuilder(charArrayList.size());
+					for(Character c: charArrayList) {
+				        builder.append(c);
+				    }
+					finalList.add(builder.toString());
+					charArrayList.clear();
+					//System.out.println("Hello!");
+				} else {
+					charArrayList.add((char)ch);
+					//System.out.println("Adding!");
+				}
+			}
+		
+		
+		file.close();
+		
+		//for the last one
+		StringBuilder builder = new StringBuilder(charArrayList.size());
+		for(Character c: charArrayList) {
+	        builder.append(c);
+	    }
+		finalList.add(builder.toString());
+		charArrayList.clear();
+		
+		//Make sure next time running the program can detect the duplicate name
+		albumPhoto.clear();
+		for (int i = 0; i < finalList.size(); i++) {
+			//albumPhoto.add(new Album(finalList.get(i)));
+		}
+		return FXCollections.observableList(finalList);
+	}
 	
 	/*
 	 * @param path path of photo

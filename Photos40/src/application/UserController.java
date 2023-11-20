@@ -51,16 +51,14 @@ public class UserController {
 	private Scene preScene;
 	private Parent root;
 	public static User user;
-	private Album selectedAlbum;
 	private String username;
+	private Album selectedAlbum;
 	
 	@FXML
 	MenuBar myMenuBar;
 	
 	@FXML
     private ListView<String> listOfAlbums;
-	
-	
 	
 	/*
 	 * @param name name of user
@@ -82,7 +80,7 @@ public class UserController {
 	/*
 	 * @param event of showing one's username
 	 */
-	public void showUsername(ActionEvent e) {
+	public void showUsername(ActionEvent e) { //done
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Username");
 		alert.setHeaderText("Your Username");
@@ -90,18 +88,11 @@ public class UserController {
 		alert.showAndWait();
 	}
 	
-	/*
-	 * @param previous scene
-	 */
-	public void setPrescene(Scene tempScene) {
+	public void setPrescene(Scene tempScene) { //done?
 		this.preScene = tempScene;
 	}
 	
-	/*
-	 * @param event of logging out
-	 * @throws throws IOException
-	 */
-	public void logout(ActionEvent event) throws IOException {
+	public void logout(ActionEvent event) throws IOException { //done
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Logout?");
 		alert.setHeaderText("Logout of your account?");
@@ -128,11 +119,7 @@ public class UserController {
 		}
 	}
 	
-	/*
-	 * @param event of using help
-	 * @throws throws IOException
-	 */
-	public void help(ActionEvent event) throws IOException {
+	public void help(ActionEvent event) throws IOException { //done
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("About This Page");
 		alert.setHeaderText("User Overview Page");
@@ -140,11 +127,8 @@ public class UserController {
 		alert.showAndWait();
 	}
 	
-	/*
-	 * @param event of creating album
-	 * @throws throws IOException
-	 */
-	public void createAlbum(ActionEvent event) throws IOException {
+	public void createAlbum(ActionEvent event) throws IOException { //done?
+		
 		TextInputDialog inputDialog = new TextInputDialog();
 		inputDialog.setTitle("New Album");
 		inputDialog.setHeaderText("New Album");
@@ -217,10 +201,12 @@ public class UserController {
 			File ofile = new File ("data/tempalbum.txt");
 			ofile.delete();
 			initialize();
+			
+			//listOfAlbums.getItems().add(name);
 		}
 	}
 	
-	public void deleteAlbum(ActionEvent event) throws IOException {
+	public void deleteAlbum(ActionEvent event) throws IOException { //done?
 		TextInputDialog inputDialog = new TextInputDialog();
 		inputDialog.setTitle("Delete Album");
 		inputDialog.setHeaderText("Delete Album");
@@ -256,7 +242,7 @@ public class UserController {
         if (user.deleteAlbum(name)) {
         	//String deletedName = listOfAlbums.getItems().remove(indexOfTargetAlbum);
         	
-		 	FileInputStream file = new FileInputStream("data/album.txt");
+		 	FileInputStream file = new FileInputStream("data/"+ username +"album.txt");
 			//String readText = file.read();
 			int ch;
 			int commaCount = 0;
@@ -271,11 +257,11 @@ public class UserController {
 			tempfile.close();
 			file.close();
 			
-			File oldFile = new File("data/album.txt");
+			File oldFile = new File("data/"+ username +"album.txt");
 			oldFile.delete();
 			
 			FileInputStream tempUserFile = new FileInputStream("data/tempalbum.txt");
-			FileOutputStream newfile = new FileOutputStream("data/album.txt");
+			FileOutputStream newfile = new FileOutputStream("data/"+ username +"album.txt");
 			while ((ch = tempUserFile.read()) != -1) {
 				newfile.write(ch);
 			}
@@ -356,7 +342,7 @@ public class UserController {
 	    renameDialog.showAndWait();
 	}
 	
-	public void goToAlbum(ActionEvent event) throws IOException {
+	public void goToAlbum(ActionEvent event) throws IOException { //done
 		//get album name, then go to specific album
 		TextInputDialog inputDialog = new TextInputDialog();
 		inputDialog.setTitle("Choose Album");
@@ -393,7 +379,7 @@ public class UserController {
         
 	}
 	
-	public void searchByDate(ActionEvent event) throws IOException {
+	public void searchByDate(ActionEvent event) throws IOException { //NEEDS WORK
 		Dialog<Pair<String, String>> searchDialog = new Dialog<>();
 		searchDialog.setTitle("Search by Date");
 		searchDialog.setHeaderText("Enter the date range of your search, formatted in YYYY/MM/DD:");
@@ -508,7 +494,7 @@ public class UserController {
 	    searchDialog.showAndWait();
 	}
 	
-	public void searchByTag(ActionEvent event) throws IOException { //single tag
+	public void searchByTag(ActionEvent event) throws IOException { //single tag NEEDS WORK
 		Dialog<Pair<String, String>> searchDialog = new Dialog<>();
 		searchDialog.setTitle("Search by Tag");
 		searchDialog.setHeaderText("Enter the tag pair you want to search for:");
@@ -568,7 +554,7 @@ public class UserController {
 	    searchDialog.showAndWait();
 	}
 	
-	public void searchByTagMultiple(ActionEvent event) throws IOException {
+	public void searchByTagMultiple(ActionEvent event) throws IOException { //NEEDS WORK
 		Dialog<Pair<String, String>> searchDialog = new Dialog<>();
 		searchDialog.setTitle("Search by Tag");
 		searchDialog.setHeaderText("Enter the tag pair you want to search for:");

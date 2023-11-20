@@ -5,7 +5,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -43,14 +46,24 @@ public class AlbumController {
 	private Scene preScene;
 	private Parent root;
 	private User albumUser = UserController.user;
-	private Album currAlbum; //contains index of selectedPhoto
+	private Album currAlbum; //contains index of selectedPhoto, and arraylist albumPhoto
 	private Photo selectedPhoto; //contains name, cal, caption, tags
+	private String selectedPath = "";
 	
 	@FXML
 	ImageView imageView;
 	
 	@FXML
 	MenuBar myMenuBar;
+	
+	//@FXML
+	//Label debug;
+	
+	@FXML
+	Label filenameDisplay;
+	
+	@FXML
+	Label captionDisplay;
 	
 	@FXML
     //private ListView<String> photoList = new ListView<String>(albumUser.getPhotoNameList(UserController.goToAlbumName));
@@ -60,9 +73,51 @@ public class AlbumController {
 		this.preScene = tempScene;
 	}
 	
-	//how to setup listview? (fill with entries)
+	@FXML
+	public void initialize() throws IOException {
+		albumUser = new User(LoginController.getName());
+		photoList.setItems(currAlbum.getPhotoNameListByFile());
+	}
 	
-	public void returnToUser(ActionEvent event) throws IOException {
+	public void displaySelected() { //done
+		photoList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+		    @Override
+		    public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+		    	selectedPath = photoList.getSelectionModel().getSelectedItem();
+		        Image image = new Image(selectedPath);
+		        imageView.setImage(image);
+		        
+		        String selectedFileName = selectedPath.substring(selectedPath.lastIndexOf("/")+1);
+		        //String selected Caption = ...
+		        
+		        filenameDisplay.setText(selectedFileName);
+		        //captionDisplay.setText...
+		    }
+		});
+	}
+	
+	public void getInfo(ActionEvent event) throws IOException {
+		if (photoList.getSelectionModel().getSelectedItem().isEmpty()) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("ERROR");
+			alert.setHeaderText("No Photo Selected");
+			alert.setContentText("Select a photo and try again.");
+			alert.showAndWait();
+			return;
+		}
+		
+		//else
+		selectedPath = photoList.getSelectionModel().getSelectedItem();
+		
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Current Photo Information");
+		alert.setHeaderText(selectedPath.substring(selectedPath.lastIndexOf("/")+1));
+		alert.setContentText("(the name date caption and tags)");
+		alert.showAndWait();
+		//display name, date, caption, tags
+	}
+	
+	public void returnToUser(ActionEvent event) throws IOException { //done
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Return?");
 		alert.setHeaderText("Return to Album Selection?");
@@ -77,16 +132,14 @@ public class AlbumController {
 		}
 	}
 	
-	public void help(ActionEvent event) throws IOException {
+	public void help(ActionEvent event) { //done
 		Alert alert = new Alert(AlertType.INFORMATION);
-		//String albumName = xxx.get();
 		alert.setTitle("About This Page");
 		alert.setHeaderText("Album Page");
 		alert.setContentText("Here, you can add, tag, caption or delete photos, search for a specific photo, view a photo in a new window, or return to the previous page.");
 		alert.showAndWait();
 	}
-	
-	
+
 	public void openFile(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         
@@ -101,15 +154,74 @@ public class AlbumController {
         if (file != null) {
             Image image = new Image(file.toURI().toString());
             String path = file.toURI().toString();
-            System.out.println(path);
-            Photo tempPhoto = new Photo(path.substring(path.lastIndexOf("/")+1), Calendar.getInstance(), null, null);
-            //temp calendar
-            UserController.user.addPhoto(currAlbum.getAlbumName(), tempPhoto);
-            photoList.getItems().add(path.substring(path.lastIndexOf("/")+1));
-            //System.out.println(path.substring(path.lastIndexOf("/")+1));
+            //System.out.println(path);
+            
+            //**commented out for debug**
+            //Photo tempPhoto = new Photo(path.substring(path.lastIndexOf("/")+1), Calendar.getInstance(), "No caption", null);
+            //UserController.user.addPhoto(currAlbum.getAlbumName(), tempPhoto);
+            
+            photoList.getItems().add(path);
             imageView.setImage(image);
+            
+            String selectedFileName = path.substring(path.lastIndexOf("/")+1);
+            //System.out.println(path.lastIndexOf("/"));
+            //System.out.println(selectedFileName);
+	        //String selectedCaption = ...
+	        
+	        filenameDisplay.setText(selectedFileName);
+	        //captionDisplay.setText...
         }
     }
+	
+	public void delFile(ActionEvent event) {
+		TextInputDialog inputDialog = new TextInputDialog();
+		inputDialog.setTitle("Delete Photo");
+		inputDialog.setHeaderText("Input Name");
+		inputDialog.setContentText("Enter a caption for this photo:");
+		Optional<String> nameInput = inputDialog.showAndWait();
+		
+		if(!nameInput.isPresent()) {
+			return;
+        }
+		
+		String name = nameInput.get();
+		
+        if (name.isEmpty()){
+        	Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Delete Photo");
+			alert.setHeaderText("Empty Name Entry");
+			alert.setContentText("Cannot delete a photo with no name!");
+			alert.showAndWait();
+			return;
+		}
+        
+        if (!albumUser.createAlbum(name)){
+			//System.out.println("name is empty");
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Delete Photo");
+			alert.setHeaderText("Error");
+			alert.setContentText("Please try a different name.");
+			alert.showAndWait();
+			return;
+		}
+		else {
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Delete Photo");
+			alert.setHeaderText("Confirm Deletion");
+			alert.setContentText("Are you sure you want to delete this photo?");
+			
+			if(alert.showAndWait().get() == ButtonType.OK) {
+				//delete photo in listview
+				photoList.lookup(name); //...
+				
+				//delete photo from album
+			}
+		}
+	}
+	
+	public void renameFile(ActionEvent event) {
+		//...
+	}
 	
 	public void caption(ActionEvent event) {
 		TextInputDialog inputDialog = new TextInputDialog();
@@ -122,8 +234,10 @@ public class AlbumController {
 			return;
         }
 		
+		//else
 		String captionText = nameInput.get();
 		selectedPhoto.setCaption(captionText);
+		//captionDisplay.setText...
 	}
 	
 	public void addTag(ActionEvent event) {
@@ -210,7 +324,8 @@ public class AlbumController {
 	            event.consume(); // Prevent dialog from closing
 	        }
 	        else {
-	        	//for loop to look for tag
+	        	//look for tag
+	        	
 	    			//if not present: errmsg
 	    		//else: 
 	        		//selectedPhoto.deleteTag(enteredType,enteredName);
@@ -253,6 +368,7 @@ public class AlbumController {
 			return;
 		}
 		else {
+			//implement method to copy photo (temp object?)
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("Copy Photo");
 			alert.setHeaderText("Success");
@@ -260,15 +376,6 @@ public class AlbumController {
 			alert.showAndWait();
 			return;
 		}
-	}
-	
-	public void copyContext(ActionEvent event) { //contextmenu copy function
-			Alert alert = new Alert(AlertType.INFORMATION);
-			alert.setTitle("Copy Photo");
-			alert.setHeaderText("Success");
-			alert.setContentText("Photo has been copied successfully.");
-			alert.showAndWait();
-			return;
 	}
 	
 	public void paste(ActionEvent event) {
