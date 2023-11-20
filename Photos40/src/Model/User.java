@@ -141,10 +141,10 @@ public class User implements Serializable{
 	 * @param photo photo itself
 	 * @return return if valid or not
 	 */
-	public boolean deletePhoto(String albumName, Photo photo) {
+	public boolean deletePhoto(String albumName, String photoName) {
 		for (int i = 0; i < albums.size(); i++) {
 			if (albumName.equals(albums.get(i).getAlbumName())) {
-				if (!(albums.get(i).deletePhoto(photo))) {
+				if (!(albums.get(i).deletePhoto(photoName))) {
 					return false;
 				} else {
 					return true;
@@ -285,7 +285,7 @@ public class User implements Serializable{
 		
 		Photo tempPhoto = albums.get(originalIndex).getPhoto(namePhoto);
 		albums.get(targetIndex).addPhoto(tempPhoto);
-		albums.get(originalIndex).deletePhoto(tempPhoto);
+		albums.get(originalIndex).deletePhoto(tempPhoto.getNamePhoto());
 		
 		return true;
 	}

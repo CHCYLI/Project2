@@ -83,7 +83,9 @@
          <contextMenu>
             <ContextMenu>
               <items>
-                <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+                  <MenuItem mnemonicParsing="false" onAction="#goToAlbum" text="View contents of an album" />
+                  <MenuItem mnemonicParsing="false" onAction="#renameAlbum" text="Rename album" />
+                  <MenuItem mnemonicParsing="false" onAction="#deleteAlbum" text="Delete album" />
               </items>
             </ContextMenu>
          </contextMenu></ListView>
@@ -91,7 +93,7 @@
          <children>
             <ImageView blendMode="OVERLAY" fitHeight="150.0" fitWidth="200.0" layoutX="120.0" layoutY="153.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../Data/uphotos.png" />
+                  <Image url="@../../data/uphotos.png" />
                </image>
             </ImageView>
             <Label alignment="CENTER" layoutX="20.0" layoutY="123.0" prefHeight="60.0" prefWidth="400.0" text="Welcome to uPhotos!" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">

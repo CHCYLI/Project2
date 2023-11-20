@@ -52,7 +52,7 @@ public class UserController {
 	private Parent root;
 	public static User user;
 	private String username;
-	private Album selectedAlbum;
+	public static String selectedAlbumName;
 	
 	@FXML
 	MenuBar myMenuBar;
@@ -70,11 +70,8 @@ public class UserController {
 	
 	@FXML
 	public void initialize() throws IOException {
-		//System.out.println("Hello "+LoginController.getName());
-		//System.out.println("Initialize " + user.getUsername());
 		user = new User(LoginController.getName());
 		listOfAlbums.setItems(user.getAlbumNameListByFile());
-		//user = new User(User.getUsername());
 	}
 	
 	/*
@@ -243,11 +240,9 @@ public class UserController {
         	//String deletedName = listOfAlbums.getItems().remove(indexOfTargetAlbum);
         	
 		 	FileInputStream file = new FileInputStream("data/"+ username +"album.txt");
-			//String readText = file.read();
 			int ch;
 			int commaCount = 0;
 			FileOutputStream tempfile = new FileOutputStream("data/tempalbum.txt");
-			//listofnames.getItems().add(admin.usernameList().size());
 			while ((ch = file.read()) != -1) {
 				if (ch == ',') commaCount++;
 				if (commaCount-1 != indexOfTargetAlbum)
@@ -315,6 +310,7 @@ public class UserController {
 	    ok.addEventFilter(ActionEvent.ACTION, mouseClickEvent -> {
 	        String oldName = oldAlbumName.getText().strip();
 	        String newName = newAlbumName.getText().strip();
+	        int albumIndex;
 	        
 	        if (oldName.isEmpty() || newName.isEmpty()) {
 	            Alert alert = new Alert(AlertType.ERROR);
@@ -325,7 +321,7 @@ public class UserController {
 	            event.consume(); // Prevent dialog from closing
 	        }
 	        else {
-	        	int albumIndex = user.getAlbumIndex(oldName);
+	        	albumIndex = user.getAlbumIndex(oldName);
 	    		if (user.renameAlbum(oldName, newName)) {
 	    			listOfAlbums.getItems().set(albumIndex, newName);
 	    		} else {
@@ -340,6 +336,13 @@ public class UserController {
 	    });
 	    
 	    renameDialog.showAndWait();
+	}
+	
+	/*
+	 * @return the name of selected goToAlbum name
+	 */
+	public static String getAlbumName() {
+		return selectedAlbumName;
 	}
 	
 	public void goToAlbum(ActionEvent event) throws IOException { //done
@@ -366,6 +369,7 @@ public class UserController {
 			alert.showAndWait();
 			return;
         } else {
+        	selectedAlbumName = goToAlbumName;
     		stage = (Stage) myMenuBar.getScene().getWindow();
     		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/View/Album.fxml"));
             scene = new Scene(fxmlLoader.load(), 640, 480);

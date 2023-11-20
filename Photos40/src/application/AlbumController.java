@@ -2,6 +2,8 @@ package application;
 
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Optional;
@@ -45,7 +47,7 @@ public class AlbumController {
 	private Scene scene;
 	private Scene preScene;
 	private Parent root;
-	private User albumUser = UserController.user;
+	private static User albumUser;
 	private Album currAlbum; //contains index of selectedPhoto, and arraylist albumPhoto
 	private Photo selectedPhoto; //contains name, cal, caption, tags
 	private String selectedPath = "";
@@ -76,6 +78,7 @@ public class AlbumController {
 	@FXML
 	public void initialize() throws IOException {
 		albumUser = new User(LoginController.getName());
+		currAlbum = new Album(UserController.getAlbumName(), LoginController.getName());
 		photoList.setItems(currAlbum.getPhotoNameListByFile());
 	}
 	
@@ -140,7 +143,7 @@ public class AlbumController {
 		alert.showAndWait();
 	}
 
-	public void openFile(ActionEvent event) {
+	public void addFile(ActionEvent event) throws IOException{
         FileChooser fileChooser = new FileChooser();
         
         //Set extension filter
@@ -160,15 +163,52 @@ public class AlbumController {
             //Photo tempPhoto = new Photo(path.substring(path.lastIndexOf("/")+1), Calendar.getInstance(), "No caption", null);
             //UserController.user.addPhoto(currAlbum.getAlbumName(), tempPhoto);
             
-            photoList.getItems().add(path);
             imageView.setImage(image);
             
-            String selectedFileName = path.substring(path.lastIndexOf("/")+1);
-            //System.out.println(path.lastIndexOf("/"));
-            //System.out.println(selectedFileName);
-	        //String selectedCaption = ...
+            //String selectedFileName = path.substring(path.lastIndexOf("/")+1);
+            //photoList.getItems().add(selectedFileName);
+            
+            File f = new File("data/"+ albumUser.getUsername()+ UserController.getAlbumName() +"photo.txt");
+			if(!f.exists() && !f.isDirectory()) { 
+				FileOutputStream createfile = new FileOutputStream("data/"+ albumUser.getUsername()+ UserController.getAlbumName() +"photo.txt");
+				createfile.close();
+			}
+			
+			
+			FileInputStream openfile = new FileInputStream("data/"+ albumUser.getUsername()+ UserController.getAlbumName() +"photo.txt");
+			int ch;
+			
+			FileOutputStream tempfile = new FileOutputStream("data/tempphoto.txt");
+			while ((ch = openfile.read()) != -1) {
+				tempfile.write(ch);
+			}
+			
+			
+			char[] tempArray = path.toCharArray();
+			tempfile.write(',');
+			for (int i = 0; i < tempArray.length; i++) {
+				tempfile.write(tempArray[i]);
+			}
+			
+			tempfile.close();
+			openfile.close();
+			
+			File oldFile = new File("data/"+ albumUser.getUsername()+ UserController.getAlbumName() +"photo.txt");
+			oldFile.delete();
+			
+			FileInputStream tempUserFile = new FileInputStream("data/tempphoto.txt");
+			FileOutputStream newfile = new FileOutputStream("data/"+ albumUser.getUsername()+ UserController.getAlbumName() +"photo.txt");
+			while ((ch = tempUserFile.read()) != -1) {
+				newfile.write(ch);
+			}
+			
+			tempUserFile.close();
+			newfile.close();
+			File ofile = new File ("data/tempphoto.txt");
+			ofile.delete();
+			initialize();
 	        
-	        filenameDisplay.setText(selectedFileName);
+	        //filenameDisplay.setText(selectedFileName);
 	        //captionDisplay.setText...
         }
     }
@@ -194,8 +234,10 @@ public class AlbumController {
 			alert.showAndWait();
 			return;
 		}
+        //int indexOfTargetAlbum = UserController.user.getAlbumIndex(name);
+        String tempPhotoName = selectedPhoto.getNamePhoto();
         
-        if (!albumUser.createAlbum(name)){
+        if (!albumUser.deletePhoto(UserController.getAlbumName(), tempPhotoName)){
 			//System.out.println("name is empty");
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Delete Photo");

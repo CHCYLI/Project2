@@ -48,18 +48,19 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#openFile" text="Add photo..." />
-                  <MenuItem mnemonicParsing="false" onAction="#openFile" text="Delete photo..." />
-                  <MenuItem mnemonicParsing="false" onAction="#openFile" text="Rename photo..." />
+              <MenuItem mnemonicParsing="false" onAction="#addFile" text="Add photo..." />
+                  <MenuItem mnemonicParsing="false" onAction="#delFile" text="Delete photo..." />
+                  <MenuItem mnemonicParsing="false" onAction="#renameFile" text="Rename photo..." />
             </items>
           </Menu>
             <Menu mnemonicParsing="false" text="Photo">
                <items>
-                  <MenuItem mnemonicParsing="false" onAction="#openFile" text="Copy..." />
-                  <MenuItem mnemonicParsing="false" onAction="#openFile" text="Paste..." />
-                  <MenuItem mnemonicParsing="false" onAction="#openFile" text="Caption..." />
-                  <MenuItem mnemonicParsing="false" onAction="#openFile" text="Add tag..." />
-                  <MenuItem mnemonicParsing="false" onAction="#openFile" text="Delete tag..." />
+                  <MenuItem mnemonicParsing="false" onAction="#getInfo" text="Get info..." />
+                  <MenuItem mnemonicParsing="false" onAction="#copy" text="Copy..." />
+                  <MenuItem mnemonicParsing="false" onAction="#paste" text="Paste..." />
+                  <MenuItem mnemonicParsing="false" onAction="#caption" text="Caption..." />
+                  <MenuItem mnemonicParsing="false" onAction="#addTag" text="Add tag..." />
+                  <MenuItem mnemonicParsing="false" onAction="#delTag" text="Delete tag..." />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Back">
@@ -74,7 +75,7 @@
           </Menu>
         </menus>
       </MenuBar>
-      <ListView fx:id="photoList" layoutY="50.0" maxWidth="200.0" prefHeight="390.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="50.0">
+      <ListView fx:id="photoList" layoutY="50.0" maxWidth="200.0" onMouseClicked="#displaySelected" prefHeight="390.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="50.0">
          <contextMenu>
             <ContextMenu>
               <items>
@@ -85,12 +86,12 @@
       <AnchorPane layoutX="200.0" layoutY="25.0" prefHeight="406.0" prefWidth="364.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
          <children>
             <ImageView fx:id="imageView" fitHeight="390.0" fitWidth="400.0" layoutX="20.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" />
-            <Label layoutX="20.0" layoutY="410.0" prefHeight="25.0" prefWidth="150.0" text="(filename goes here)">
+            <Label fx:id="filenameDisplay" layoutX="20.0" layoutY="410.0" prefHeight="25.0" prefWidth="400.0" text="(filename goes here)">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Label layoutX="220.0" layoutY="410.0" prefHeight="25.0" prefWidth="150.0" text="(caption goes here)" />
+            <Label fx:id="captionDisplay" layoutX="20.0" layoutY="429.0" prefHeight="25.0" prefWidth="400.0" text="(caption goes here)" />
          </children>
       </AnchorPane>
       <Label layoutY="25.0" prefHeight="25.0" prefWidth="150.0" text="List of Photos" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="25.0" />

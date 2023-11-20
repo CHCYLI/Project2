@@ -1,1 +1,1 @@
-,aaa,user,more user,temp
+,aaa,user,more user,temp,stock

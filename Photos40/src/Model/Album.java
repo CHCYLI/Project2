@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import application.LoginController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -62,9 +63,9 @@ public class Album implements Serializable {
 	 * @param targetPhoto delete photo from album
 	 * @return return if successful or not
 	 */
-	public boolean deletePhoto(Photo targetPhoto) {
+	public boolean deletePhoto(String photoName) {
 		for (int i = 0; i < albumPhoto.size(); i++) {
-			if (targetPhoto.getNamePhoto().equals(albumPhoto.get(i).getNamePhoto())) {
+			if (photoName.equals(albumPhoto.get(i).getNamePhoto())) {
 				albumPhoto.remove(i);
 				return true;
 			}
@@ -101,14 +102,15 @@ public class Album implements Serializable {
 	}
 	
 	public ObservableList<String> getPhotoNameListByFile() throws IOException {
-		File f = new File("data/"+ albumOwner +"photo.txt");
+		//System.out.println("Something here");
+		File f = new File("data/"+ albumOwner + albumName+"photo.txt");
 		if(!f.exists() && !f.isDirectory()) { 
-			FileOutputStream createfile = new FileOutputStream("data/"+ albumOwner +"photo.txt");
+			FileOutputStream createfile = new FileOutputStream("data/"+ albumOwner +albumName +"photo.txt");
 			createfile.close();
 		}
 		
 		List<String> finalList = new ArrayList<String>();
-		FileInputStream file =  new FileInputStream("data/"+ albumOwner +"photo.txt");
+		FileInputStream file =  new FileInputStream("data/"+ albumOwner+albumName +"photo.txt");
 			//System.out.println("Something here");
 		
 		int ch;
@@ -149,8 +151,9 @@ public class Album implements Serializable {
 		//Make sure next time running the program can detect the duplicate name
 		albumPhoto.clear();
 		for (int i = 0; i < finalList.size(); i++) {
-			//albumPhoto.add(new Album(finalList.get(i)));
+			albumPhoto.add(new Photo(finalList.get(i), null, null, null));
 		}
+		//this photo needs to be finalized
 		return FXCollections.observableList(finalList);
 	}
 	
