@@ -1,6 +1,8 @@
 package Model;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
@@ -16,7 +18,7 @@ import javafx.collections.ObservableList;
 
 public class User implements Serializable{
 	
-	public static final long serialVersionUID = 1L;
+	//public static final long serialVersionUID = 1L;
 	private String username;
 	private ArrayList<Album> albums;
 	
@@ -25,8 +27,15 @@ public class User implements Serializable{
 	 * @param name name of user
 	 */
 	public User (String name) {
-		this.username = name;
-		this.albums = new ArrayList<Album>();
+		username = name;
+		albums = new ArrayList<Album>();
+	}
+	
+	/*
+	 * @param name of user
+	 */
+	public void setUsername(String name) {
+		username = name;
 	}
 	
 	/*
@@ -310,6 +319,25 @@ public class User implements Serializable{
 		return FXCollections.observableArrayList(photoList);
 	}
 	
+	/*
+	 * @param tagName name of tag
+	 * @param tagValue value of tag
+	 * @param type conjunctive or disjunctive or single name
+	 * @return return photo list
+	 */
+	public ObservableList<Photo> searchByTags(String tagName, String tagValue) { //singular tag
+		ArrayList<Photo> photoList = new ArrayList<Photo>();
+		if (!(tagValue == null) && !(tagName == null)) {
+			for (int i = 0; i < albums.size(); i++) {
+				for (int j = 0; j < albums.get(i).getAlbumSize(); j++) {
+					if (albums.get(i).getPhoto(j).hasTagName(tagName) || albums.get(i).getPhoto(j).hasTagValue(tagName, tagValue))
+						photoList.add(albums.get(i).getPhoto(j));
+				}
+			}
+		}
+		
+		return FXCollections.observableArrayList(photoList);
+	}
 	
 	/*
 	 * @param tagName name of tag
@@ -317,33 +345,26 @@ public class User implements Serializable{
 	 * @param type conjunctive or disjunctive or single name
 	 * @return return photo list
 	 */
-	public ObservableList<Photo> searchByTags(String tagName, String tagValue, String type) {
+	public ObservableList<Photo> searchByTags(String tag1Name, String tag1Value, String tag2Name, String tag2Value, String type) { //multiple
 		ArrayList<Photo> photoList = new ArrayList<Photo>();
-		if (tagValue == null) { //if single value (name)
-			for (int i = 0; i < albums.size(); i++) {
-				for (int j = 0; j < albums.get(i).getAlbumSize(); j++) {
-					if (albums.get(i).getPhoto(j).hasTagName(tagName))
-						photoList.add(albums.get(i).getPhoto(j));
-				}
-			}
-			
-		}
-	
 		
-		if (!(tagValue == null) && !(tagName == null) && type == "AND") { //if conjunctive combination
-			for (int i = 0; i < albums.size(); i++) {
-				for (int j = 0; j < albums.get(i).getAlbumSize(); j++) {
-					if (albums.get(i).getPhoto(j).hasTagName(tagName) && albums.get(i).getPhoto(j).hasTagValue(tagName, tagValue))
-						photoList.add(albums.get(i).getPhoto(j));
+		if (type == "AND") {
+			if (!(tag1Value == null) && !(tag1Name == null) && !(tag2Value == null) && !(tag2Name == null)) { //if conjunctive combination
+				for (int i = 0; i < albums.size(); i++) {
+					for (int j = 0; j < albums.get(i).getAlbumSize(); j++) {
+						if (albums.get(i).getPhoto(j).hasTagValue(tag1Name, tag1Value) && albums.get(i).getPhoto(j).hasTagValue(tag2Name, tag2Value))
+							photoList.add(albums.get(i).getPhoto(j));
+					}
 				}
 			}
 		}
-		
-		if (!(tagValue == null) && !(tagName == null)) { //if disjunctive combination, can ignore the type "OR"
-			for (int i = 0; i < albums.size(); i++) {
-				for (int j = 0; j < albums.get(i).getAlbumSize(); j++) {
-					if (albums.get(i).getPhoto(j).hasTagName(tagName) || albums.get(i).getPhoto(j).hasTagValue(tagName, tagValue))
-						photoList.add(albums.get(i).getPhoto(j));
+		else if (type == "OR") {
+			if (!(tag1Value == null) && !(tag1Name == null) && !(tag2Value == null) && !(tag2Name == null)) { //if conjunctive combination
+				for (int i = 0; i < albums.size(); i++) {
+					for (int j = 0; j < albums.get(i).getAlbumSize(); j++) {
+						if (albums.get(i).getPhoto(j).hasTagValue(tag1Name, tag1Value) || albums.get(i).getPhoto(j).hasTagValue(tag2Name, tag2Value))
+							photoList.add(albums.get(i).getPhoto(j));
+					}
 				}
 			}
 		}
@@ -388,10 +409,67 @@ public class User implements Serializable{
 		return FXCollections.observableList(tempList);
 	}
 	
-	public User findUser () throws IOException, FileNotFoundException, ClassNotFoundException {
+	/*public User findUser () throws IOException, FileNotFoundException, ClassNotFoundException {
 		FileInputStream inFile = new FileInputStream("../data/user.txt");
 		ObjectInputStream inStream = new ObjectInputStream(inFile);
 		User user = (User)inStream.readObject();
 		return user;
+	}*/
+	
+	/*
+	 * @return the names of albums through file
+	 */
+	public ObservableList<String> getAlbumNameListByFile() throws IOException {
+		File f = new File("data/"+ username +"album.txt");
+		if(!f.exists() && !f.isDirectory()) { 
+			FileOutputStream createfile = new FileOutputStream("data/"+ username +"album.txt");
+			createfile.close();
+		}
+		
+		List<String> finalList = new ArrayList<String>();
+		FileInputStream file =  new FileInputStream("data/"+ username +"album.txt");
+			//System.out.println("Something here");
+		
+		int ch;
+		boolean firstComma = false;
+		ArrayList<Character> charArrayList = new ArrayList<Character>();
+		
+			while ((ch = file.read()) != -1) {
+				//System.out.println("-1!");
+				if (ch == ',' && firstComma == false) {
+					firstComma = true;
+					//System.out.println("first one!");
+					continue;
+				} else if (ch == ','){
+					StringBuilder builder = new StringBuilder(charArrayList.size());
+					for(Character c: charArrayList) {
+				        builder.append(c);
+				    }
+					finalList.add(builder.toString());
+					charArrayList.clear();
+					//System.out.println("Hello!");
+				} else {
+					charArrayList.add((char)ch);
+					//System.out.println("Adding!");
+				}
+			}
+		
+		
+		file.close();
+		
+		//for the last one
+		StringBuilder builder = new StringBuilder(charArrayList.size());
+		for(Character c: charArrayList) {
+	        builder.append(c);
+	    }
+		finalList.add(builder.toString());
+		charArrayList.clear();
+		
+		//Make sure next time running the program can detect the duplicate name
+		albums.clear();
+		for (int i = 0; i < finalList.size(); i++) {
+			albums.add(new Album(finalList.get(i)));
+		}
+		return FXCollections.observableList(finalList);
 	}
 }

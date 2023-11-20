@@ -104,7 +104,7 @@ public class AlbumController {
             System.out.println(path);
             Photo tempPhoto = new Photo(path.substring(path.lastIndexOf("/")+1), Calendar.getInstance(), null, null);
             //temp calendar
-            UserController.user.addPhoto(UserController.goToAlbumName, tempPhoto);
+            UserController.user.addPhoto(currAlbum.getAlbumName(), tempPhoto);
             photoList.getItems().add(path.substring(path.lastIndexOf("/")+1));
             //System.out.println(path.substring(path.lastIndexOf("/")+1));
             imageView.setImage(image);
@@ -190,9 +190,9 @@ public class AlbumController {
 	    TextField tagName = new TextField();
 	    
 	    tagGrid.add(tagType, 0, 1);
-	    tagGrid.add(new Label("Type"), 0, 0);
+	    tagGrid.add(new Label("Type:"), 0, 0);
 	    tagGrid.add(tagName, 1, 1);
-	    tagGrid.add(new Label("Name"), 1, 0);
+	    tagGrid.add(new Label("Name:"), 1, 0);
 	    
 	    tagDialog.getDialogPane().setContent(tagGrid);
 	    
@@ -220,14 +220,55 @@ public class AlbumController {
 	    tagDialog.showAndWait();
 	}
 	
-	public void copy(ActionEvent event) {
-		//write path to userPhotos.txt as a temporary file
-		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Copy Photo");
-		alert.setHeaderText("Success");
-		alert.setContentText("Photo has been copied successfully.");
-		alert.showAndWait();
-		return;
+	public void copy(ActionEvent event) { //menubar copy function
+		TextInputDialog inputDialog = new TextInputDialog();
+		inputDialog.setTitle("Copy Photo");
+		inputDialog.setHeaderText("Copy Photo");
+		inputDialog.setContentText("Enter name for photo to copy...");
+        
+        Optional<String> nameInput = inputDialog.showAndWait();
+        
+        if(!nameInput.isPresent()) {
+			return;
+        }
+        
+        String name = nameInput.get();
+		
+        if (name.isEmpty()){
+        	Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Copy Photo");
+			alert.setHeaderText("Empty Name Entry");
+			alert.setContentText("Cannot initialize an album with no name!");
+			alert.showAndWait();
+			return;
+		}
+        
+        if (!albumUser.createAlbum(name)){
+			//System.out.println("name is empty");
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Copy Photo");
+			alert.setHeaderText("Error");
+			alert.setContentText("Please try a different name.");
+			alert.showAndWait();
+			return;
+		}
+		else {
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Copy Photo");
+			alert.setHeaderText("Success");
+			alert.setContentText("Photo has been copied successfully.");
+			alert.showAndWait();
+			return;
+		}
+	}
+	
+	public void copyContext(ActionEvent event) { //contextmenu copy function
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Copy Photo");
+			alert.setHeaderText("Success");
+			alert.setContentText("Photo has been copied successfully.");
+			alert.showAndWait();
+			return;
 	}
 	
 	public void paste(ActionEvent event) {

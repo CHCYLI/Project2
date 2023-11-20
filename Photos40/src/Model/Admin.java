@@ -10,7 +10,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class Admin {
-	private ArrayList<User> usersList = new ArrayList<User>();
+	private static ArrayList<User> usersList = new ArrayList<User>();
 	private String adminName;
 	
 	/*
@@ -82,6 +82,23 @@ public class Admin {
 		return FXCollections.observableList(finalList);
 	}
 	
+	/*
+	 * @return an arraylist of users
+	 */
+	public ArrayList<User> usersLists() {
+		ArrayList<User> finalList = new ArrayList<User>();
+		
+		
+		for (int i = 0; i < usersList.size(); i++) {
+			finalList.add(usersList.get(i));
+		}
+		
+		return finalList;
+	}
+	
+	/*
+	 * @return the names of users through file
+	 */
 	public static ObservableList<String> getUsernameListByFile() throws IOException {
 		List<String> finalList = new ArrayList<String>();
 		FileInputStream file =  new FileInputStream("data/user.txt");
@@ -122,7 +139,11 @@ public class Admin {
 		finalList.add(builder.toString());
 		charArrayList.clear();
 		
-		
+		//Make sure next time running the program can detect the duplicate name
+		usersList.clear();
+		for (int i = 0; i < finalList.size(); i++) {
+			usersList.add(new User(finalList.get(i)));
+		}
 		return FXCollections.observableList(finalList);
 	}
 }

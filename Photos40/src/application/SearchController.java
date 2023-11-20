@@ -3,8 +3,11 @@ package application;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Optional;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,12 +19,14 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.Node;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import Model.Album;
 import Model.Photo;
 import Model.User;
 
@@ -31,6 +36,7 @@ public class SearchController {
 	private Scene scene;
 	private Parent root;
 	private User albumUser = UserController.user;
+	ObservableList<Photo> searchMatches;
 	
 	@FXML
 	ImageView imageView;
@@ -51,27 +57,44 @@ public class SearchController {
 		alert.showAndWait();
 	}
 	
-	
-	public void openFile(ActionEvent event) {
-        FileChooser fileChooser = new FileChooser();
+	public void addAlbum(ActionEvent event) {
+		TextInputDialog inputDialog = new TextInputDialog();
+		inputDialog.setTitle("New Album");
+		inputDialog.setHeaderText("New Album");
+		inputDialog.setContentText("Enter name for new album...");
+		//inputDialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
         
-        //Set extension filter
-        FileChooser.ExtensionFilter extFilterJPG = new FileChooser.ExtensionFilter("JPG files (*.jpg)", "*.JPG");
-        FileChooser.ExtensionFilter extFilterPNG = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.PNG");
-        fileChooser.getExtensionFilters().addAll(extFilterJPG, extFilterPNG);
-         
-        //Show open file dialog
-        File file = fileChooser.showOpenDialog(null);
-                  
-        if (file != null) {
-            Image image = new Image(file.toURI().toString());
-            String path = file.toURI().toString();
-            Photo tempPhoto = new Photo(path.substring(path.lastIndexOf("/")+1), Calendar.getInstance(), null, null);
-            //temp calendar
-            UserController.user.addPhoto(UserController.goToAlbumName, tempPhoto);
-            photoList.getItems().add(path.substring(path.lastIndexOf("/")+1));
-            //System.out.println(path.substring(path.lastIndexOf("/")+1));
-            imageView.setImage(image);
+        Optional<String> nameInput = inputDialog.showAndWait();
+        
+        if(!nameInput.isPresent()) {
+			return;
         }
-    }
+        
+        String name = nameInput.get();
+		
+        if (name.isEmpty()){
+        	Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("New Album");
+			alert.setHeaderText("Empty Name Entry");
+			alert.setContentText("Cannot initialize an album with no name!");
+			alert.showAndWait();
+			return;
+		}
+        
+        if (!albumUser.createAlbum(name)){
+			//System.out.println("name is empty");
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("New Album");
+			alert.setHeaderText("Error");
+			alert.setContentText("Please try a different name.");
+			alert.showAndWait();
+			return;
+		}
+		else {
+			Album newSearchAlbum = new Album(name);
+			//for loop: add photos in list
+			//ArrayList<Album> albums in User
+			//ArrayList<Photo> albumPhoto in Album
+		}
+	}
 }

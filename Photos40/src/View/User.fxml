@@ -56,7 +56,12 @@
                   <Menu mnemonicParsing="false" text="Search...">
                     <items>
                       <MenuItem mnemonicParsing="false" onAction="#searchByDate" text="By date..." />
-                        <MenuItem mnemonicParsing="false" onAction="#searchByTag" text="By tag..." />
+                        <Menu mnemonicParsing="false" text="By tag...">
+                           <items>
+                              <MenuItem mnemonicParsing="false" onAction="#searchByTag" text="Single" />
+                              <MenuItem mnemonicParsing="false" onAction="#searchByTagMultiple" text="Multiple" />
+                           </items>
+                        </Menu>
                     </items>
                   </Menu>
             </items>

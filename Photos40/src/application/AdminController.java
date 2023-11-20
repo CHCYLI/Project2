@@ -44,11 +44,10 @@ public class AdminController {
     @FXML
     private ListView<String> listofnames;
     
+    @FXML
     public void initialize() throws IOException {
-    	//listofnames = new ListView<String> (Admin.getUsernameListByFile());
     	listofnames.setItems(Admin.getUsernameListByFile());
-    	//listofnames.getItems();
-    	//System.out.println("initialize");
+    	
     }
     
     public void setPrescene(Scene tempScene) {
@@ -165,7 +164,7 @@ public class AdminController {
 		 	//admin.deleteUser(selectedUser);
 		 	
 		 	
-		 	String name = listofnames.getItems().remove(selectedUser);
+		 	//String name = listofnames.getItems().remove(selectedUser);
 		 	//File file = new File("data/" + name + ".txt");
 		 	//file.delete();
 		 	FileInputStream file = new FileInputStream("data/user.txt");
