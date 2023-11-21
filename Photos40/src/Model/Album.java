@@ -101,6 +101,21 @@ public class Album implements Serializable {
 		return albumPhoto.get(index);
 	}
 	
+	/*
+	 * @param name name of photo
+	 * @return return the index of photo
+	 */
+	public int getPhotoIndex(String name) {
+		for (int i = 0; i < albumPhoto.size(); i++) {
+			if (albumPhoto.get(i).getNamePhoto().equals(name)) return i;
+		}
+		return -1;
+	}
+	
+	/*
+	 * @throws IOException 
+	 * @return return photoname list
+	 */
 	public ObservableList<String> getPhotoNameListByFile() throws IOException {
 		//System.out.println("Something here");
 		File f = new File("data/"+ albumOwner + albumName+"photo.txt");

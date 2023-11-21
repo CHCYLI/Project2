@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -51,6 +52,7 @@ public class AlbumController {
 	private Album currAlbum; //contains index of selectedPhoto, and arraylist albumPhoto
 	private Photo selectedPhoto; //contains name, cal, caption, tags
 	private String selectedPath = "";
+	private String copyImagePath;
 	
 	@FXML
 	ImageView imageView;
@@ -377,21 +379,44 @@ public class AlbumController {
 	    tagDialog.showAndWait();
 	}
 	
-	public void copy(ActionEvent event) { //menubar copy function
-		TextInputDialog inputDialog = new TextInputDialog();
-		inputDialog.setTitle("Copy Photo");
-		inputDialog.setHeaderText("Copy Photo");
-		inputDialog.setContentText("Enter name for photo to copy...");
+	public void copy(ActionEvent event) throws IOException{ //menubar copy function
+		Dialog<Pair<String, String>> renameDialog = new Dialog<>();
+		renameDialog.setTitle("Copy Photo");
+		renameDialog.setHeaderText("Enter the name of the album and the name of the photo");
+		
+		ButtonType okButton = new ButtonType("OK", ButtonData.OK_DONE);
+		renameDialog.getDialogPane().getButtonTypes().addAll(okButton, ButtonType.CANCEL);
+		
+		GridPane renameGrid = new GridPane();
+		renameGrid.setHgap(20);
+		renameGrid.setVgap(20);
+		renameGrid.setPadding(new Insets(20, 150, 10, 10));
+		
+		TextField oldAlbumName = new TextField();
+	    TextField newAlbumName = new TextField();
+	    TextField photoName = new TextField();
+	    
+	    renameGrid.add(oldAlbumName, 0, 1);
+	    renameGrid.add(new Label("Original Album"), 0, 0);
+	    renameGrid.add(newAlbumName, 1, 1);
+	    renameGrid.add(new Label("New Album"), 1, 0);
+	    renameGrid.add(photoName, 2, 1);
+	    renameGrid.add(new Label("Photo Name"), 2, 0);
+	    
+	    renameDialog.getDialogPane().setContent(renameGrid);
         
-        Optional<String> nameInput = inputDialog.showAndWait();
+        Optional<Pair<String, String>> nameInput = renameDialog.showAndWait();
         
         if(!nameInput.isPresent()) {
 			return;
         }
         
-        String name = nameInput.get();
+        //String name = nameInput.get();
+        String oldName = oldAlbumName.getText();
+        String newName = newAlbumName.getText();
+        String pname = photoName.getText();
 		
-        if (name.isEmpty()){
+        if (oldName.isEmpty() || newName.isEmpty()){
         	Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Copy Photo");
 			alert.setHeaderText("Empty Name Entry");
@@ -400,7 +425,7 @@ public class AlbumController {
 			return;
 		}
         
-        if (!albumUser.createAlbum(name)){
+        if (!albumUser.copyPhoto(oldName, newName, pname)){
 			//System.out.println("name is empty");
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Copy Photo");
@@ -410,7 +435,72 @@ public class AlbumController {
 			return;
 		}
 		else {
-			//implement method to copy photo (temp object?)
+			int indexOfTargetPhoto = currAlbum.getPhotoIndex(pname);
+			FileInputStream file = new FileInputStream("data/"+ LoginController.getName()+ UserController.getAlbumName() +"photo.txt");
+			int ch;
+			int commaCount = 0;
+			ArrayList<Character> charArrayList = new ArrayList<Character>();
+			boolean check = false;
+			
+			while ((ch = file.read()) != -1) {
+				if (ch == ',') commaCount++;
+				
+				if (commaCount-1 == indexOfTargetPhoto) {
+					while ((ch = file.read()) != -1) {
+						if (ch!= ',') {
+							charArrayList.add((char)ch);
+						} else if (ch == ',' || ch == -1) {
+							check = true;
+							break;
+						}
+					}
+				}
+				if (check == true) break;
+			}
+			
+			StringBuilder builder = new StringBuilder(charArrayList.size());
+			for(Character c: charArrayList) {
+		        builder.append(c);
+		    }
+			
+			copyImagePath = builder.toString();
+			file.close();
+			
+			FileInputStream newfile = new FileInputStream("data/"+ LoginController.getName()+ newName +"photo.txt");
+			
+			FileOutputStream tempfile = new FileOutputStream("data/tempphoto.txt");
+			while ((ch = newfile.read()) != -1) {
+				tempfile.write(ch);
+			}
+			
+			
+			char[] tempArray = copyImagePath.toCharArray();
+			tempfile.write(',');
+			for (int i = 0; i < tempArray.length; i++) {
+				tempfile.write(tempArray[i]);
+			}
+			
+			newfile.close();
+			tempfile.close();
+			file.close();
+			
+			File oldFile = new File("data/"+ LoginController.getName()+ newName +"album.txt");
+			oldFile.delete();
+			
+			FileInputStream tempUserFile = new FileInputStream("data/tempalbum.txt");
+			FileOutputStream finalFile = new FileOutputStream("data/"+ LoginController.getName()+ newName +"album.txt");
+			while ((ch = tempUserFile.read()) != -1) {
+				finalFile.write(ch);
+			}
+			
+			tempUserFile.close();
+			finalFile.close();
+			File ofile = new File ("data/tempalbum.txt");
+			ofile.delete();
+			
+			initialize();
+			
+			
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("Copy Photo");
 			alert.setHeaderText("Success");
@@ -420,7 +510,7 @@ public class AlbumController {
 		}
 	}
 	
-	public void paste(ActionEvent event) {
+	/*public void paste(ActionEvent event) {
 		//check userPhotos.txt for duplicate
 		if (true) { //add statement for check
 			Alert alert = new Alert(AlertType.ERROR);
@@ -431,7 +521,7 @@ public class AlbumController {
 			return;
 		}
 		//if not:paste path another album to userPhotos.txt
-	}
+	}*/
 	/*
 	 * functionalities:
 	 * context menu: del, caption curr photo, add/del tag of curr photo, copy/paste between albums
