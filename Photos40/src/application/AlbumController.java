@@ -42,6 +42,11 @@ import Model.Album;
 import Model.Photo;
 import Model.User;
 
+/*
+ * AlbumController class
+ * @author Chris Li
+ * @author Tony Lu
+ */
 public class AlbumController {
 	
 	private Stage stage;
@@ -84,6 +89,7 @@ public class AlbumController {
 		photoList.setItems(currAlbum.getPhotoNameListByFile());
 	}
 	
+	@FXML
 	public void displaySelected() { //done
 		photoList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
 		    @Override
@@ -101,6 +107,7 @@ public class AlbumController {
 		});
 	}
 	
+	@FXML
 	public void getInfo(ActionEvent event) throws IOException {
 		if (photoList.getSelectionModel().getSelectedItem().isEmpty()) {
 			Alert alert = new Alert(AlertType.ERROR);
@@ -122,6 +129,7 @@ public class AlbumController {
 		//display name, date, caption, tags
 	}
 	
+	@FXML
 	public void returnToUser(ActionEvent event) throws IOException { //done
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Return?");
@@ -137,6 +145,7 @@ public class AlbumController {
 		}
 	}
 	
+	@FXML
 	public void help(ActionEvent event) { //done
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("About This Page");
@@ -145,6 +154,7 @@ public class AlbumController {
 		alert.showAndWait();
 	}
 
+	@FXML
 	public void addFile(ActionEvent event) throws IOException{
         FileChooser fileChooser = new FileChooser();
         
@@ -215,6 +225,7 @@ public class AlbumController {
         }
     }
 	
+	@FXML
 	public void delFile(ActionEvent event) {
 		TextInputDialog inputDialog = new TextInputDialog();
 		inputDialog.setTitle("Delete Photo");
@@ -263,10 +274,12 @@ public class AlbumController {
 		}
 	}
 	
+	@FXML
 	public void renameFile(ActionEvent event) {
 		//...
 	}
 	
+	@FXML
 	public void caption(ActionEvent event) {
 		TextInputDialog inputDialog = new TextInputDialog();
 		inputDialog.setTitle("Caption");
@@ -322,12 +335,61 @@ public class AlbumController {
 	        }
 	        else {
 	        	selectedPhoto.addTag(enteredType,enteredName);
+	        	try {
+	        	File f = new File("data/"+ LoginController.getName() + UserController.getAlbumName() + copyImagePath +"tag.txt");
+				if(!f.exists() && !f.isDirectory()) { 
+					FileOutputStream createfile = new FileOutputStream("data/"+ LoginController.getName() + UserController.getAlbumName() + copyImagePath +"tag.txt");
+					createfile.close();
+				}
+				
+				
+				FileInputStream file = new FileInputStream("data/"+ LoginController.getName() + UserController.getAlbumName() + copyImagePath +"tag.txt");
+				int ch;
+				
+				FileOutputStream tempfile = new FileOutputStream("data/temptag.txt");
+				while ((ch = file.read()) != -1) {
+					tempfile.write(ch);
+				}
+				
+				
+				char[] typeArray = enteredType.toCharArray();
+				char[] nameArray = enteredName.toCharArray();
+				tempfile.write(';');
+				for (int i = 0; i < typeArray.length; i++) {
+					tempfile.write(typeArray[i]);
+				}
+				tempfile.write(',');
+				for (int i = 0; i < nameArray.length; i++) {
+					tempfile.write(nameArray[i]);
+				}
+				
+				tempfile.close();
+				file.close();
+				
+				File oldFile = new File("data/"+ LoginController.getName() + UserController.getAlbumName() + copyImagePath +"tag.txt");
+				oldFile.delete();
+				
+				FileInputStream tempUserFile = new FileInputStream("data/temptag.txt");
+				FileOutputStream newfile = new FileOutputStream("data/"+ LoginController.getName() + UserController.getAlbumName() + copyImagePath +"tag.txt");
+				while ((ch = tempUserFile.read()) != -1) {
+					newfile.write(ch);
+				}
+				
+				tempUserFile.close();
+				newfile.close();
+				File ofile = new File ("data/temptag.txt");
+				ofile.delete();
+				initialize();
+	        	} catch (IOException e) {
+	        		e.printStackTrace();
+	        	}
 	        }
 	    });
 	    
 	    tagDialog.showAndWait();
 	}
 	
+	@FXML
 	public void delTag(ActionEvent event) {
 		//for loop to look for tag
 		//if not present: errmsg
@@ -379,6 +441,7 @@ public class AlbumController {
 	    tagDialog.showAndWait();
 	}
 	
+	@FXML
 	public void copy(ActionEvent event) throws IOException{ //menubar copy function
 		Dialog<Pair<String, String>> renameDialog = new Dialog<>();
 		renameDialog.setTitle("Copy Photo");

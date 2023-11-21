@@ -16,6 +16,10 @@ import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+/*
+ * @author Chris Li
+ * @author Tony Lu
+ */
 public class User implements Serializable{
 	
 	//public static final long serialVersionUID = 1L;

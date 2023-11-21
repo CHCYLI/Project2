@@ -29,6 +29,10 @@ import javafx.stage.Stage;
 
 public class AdminController {
 	
+	/*
+	 * @author Chris Li
+	 * @author Tony Lu
+	 */
 	private Stage stage;
 	private Scene scene;
 	private Parent root;
@@ -50,10 +54,15 @@ public class AdminController {
     	
     }
     
+    /*
+     * @param tempscene set previous scene
+     */
     public void setPrescene(Scene tempScene) {
     	this.preScene = tempScene;
     }
 	
+    
+    @FXML
 	public void logout(ActionEvent event) throws IOException {
 		
 		Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -79,6 +88,9 @@ public class AdminController {
 		}
 	}
 	
+	
+	
+	@FXML
 	public void help(ActionEvent event) throws IOException {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("About This Page");

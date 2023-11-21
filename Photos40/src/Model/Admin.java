@@ -9,6 +9,10 @@ import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+/*
+ * @author Chris Li
+ * @author Tony Lu
+ */
 public class Admin {
 	private static ArrayList<User> usersList = new ArrayList<User>();
 	private String adminName;
@@ -29,6 +33,7 @@ public class Admin {
 	
 	/*
 	 * @param username Create user
+	 * @return if you can create user or not
 	 */
 	public boolean createUser(String username) {
 		if (username.equals("admin")) return false;
@@ -49,6 +54,7 @@ public class Admin {
 	
 	/*
 	 * @param username obtain username
+	 * @return return the user
 	 */
 	public User getUser(String username) {
 		for (int i = 0; i < usersList.size(); i++) {
@@ -59,6 +65,10 @@ public class Admin {
 		return null;
 	}
 	
+	/*
+	 * @param username
+	 * @return return the username
+	 */
 	public String getUsername(String username) {
 		for (int i = 0; i < usersList.size(); i++) {
 			if (username.equals(usersList.get(i).getUsername())) {
@@ -98,6 +108,7 @@ public class Admin {
 	
 	/*
 	 * @return the names of users through file
+	 * @throws IOException
 	 */
 	public static ObservableList<String> getUsernameListByFile() throws IOException {
 		List<String> finalList = new ArrayList<String>();

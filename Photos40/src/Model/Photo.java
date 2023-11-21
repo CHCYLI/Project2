@@ -4,6 +4,10 @@ import java.util.HashMap;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/*
+ * @author Chris Li
+ * @author Tony Lu
+ */
 public class Photo implements Serializable{
 	/**
 	 * 

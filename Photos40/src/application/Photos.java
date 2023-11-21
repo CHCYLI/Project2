@@ -14,6 +14,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
 
+/*
+ * @author Chris Li
+ * @author Tony Lu
+ */
 public class Photos extends Application {
 	@Override
 	public void start(Stage stage) {
@@ -56,6 +60,9 @@ public class Photos extends Application {
 		}
 	}
 	
+	/*
+	 * @param quitting the program
+	 */
 	public void quit(Stage stage) {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Quit?");

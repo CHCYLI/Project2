@@ -11,6 +11,10 @@ import application.LoginController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+/*
+ * @author Chris Li
+ * @author Tony Lu
+ */
 public class Album implements Serializable {
 	/**
 	 * 
@@ -43,13 +47,16 @@ public class Album implements Serializable {
 		return albumName;
 	}
 	
+	/*
+	 * @return return owner of the current album
+	 */
 	public String getUser() {
 		return albumOwner;
 	}
 	
 	/*
 	 * @param importedPhoto add photo to the album
-	 * @return if added succesfully or not
+	 * @return if added successfully or not
 	 */
 	public boolean addPhoto(Photo importedPhoto) {
 		if (hasPhoto(importedPhoto.getNamePhoto())) {

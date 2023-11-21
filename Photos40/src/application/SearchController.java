@@ -33,6 +33,10 @@ import Model.Album;
 import Model.Photo;
 import Model.User;
 
+/*
+ * @author Chris Li
+ * @author Tony Lu
+ */
 public class SearchController {
 	
 	private Stage stage;
@@ -59,6 +63,7 @@ public class SearchController {
     //private ListView<String> photoList = new ListView<String>(albumUser.getPhotoNameList(UserController.goToAlbumName));
 	private ListView<String> photoList;
 	
+	@FXML
 	public void displaySelected() { //done?
 		photoList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
 		    @Override
@@ -76,6 +81,7 @@ public class SearchController {
 		});
 	}
 	
+	@FXML
 	public void help(ActionEvent event) throws IOException { //done
 		Alert alert = new Alert(AlertType.INFORMATION);
 		//String albumName = xxx.get();
@@ -85,6 +91,7 @@ public class SearchController {
 		alert.showAndWait();
 	}
 	
+	@FXML
 	public void addAlbum(ActionEvent event) { //NEEDS WORK
 		TextInputDialog inputDialog = new TextInputDialog();
 		inputDialog.setTitle("New Album");

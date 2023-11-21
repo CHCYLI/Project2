@@ -19,6 +19,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.Node;
 import javafx.stage.Stage;
 
+/*
+ * @author Chris Li
+ * @author Tony Lu
+ */
 public class LoginController {
 	
 	private Stage stage;
@@ -33,10 +37,14 @@ public class LoginController {
 	@FXML
 	TextField usernameInput;
 	
+	/*
+	 * @param scene previous scene
+	 */
 	public void setPrescene(Scene tempScene) {
 		this.preScene = tempScene;
 	}
 	
+	@FXML
 	public void switchToSubsystem(ActionEvent event) throws IOException {
 		
 		String enteredText = usernameInput.getText();
@@ -134,6 +142,9 @@ public class LoginController {
 		
 	}
 	
+	/*
+	 * @return return the name of the user when logging in
+	 */
 	public static String getName() {
 		return tempName;
 	}

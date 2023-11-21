@@ -44,6 +44,10 @@ import javafx.scene.Node;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
+/*
+ * @author Chris Li
+ * @author Tony Lu
+ */
 public class UserController {
 	
 	private Stage stage;
@@ -74,9 +78,7 @@ public class UserController {
 		listOfAlbums.setItems(user.getAlbumNameListByFile());
 	}
 	
-	/*
-	 * @param event of showing one's username
-	 */
+	@FXML
 	public void showUsername(ActionEvent e) { //done
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Username");
@@ -85,10 +87,14 @@ public class UserController {
 		alert.showAndWait();
 	}
 	
+	/*
+	 * @param scene set up previous scene
+	 */
 	public void setPrescene(Scene tempScene) { //done?
 		this.preScene = tempScene;
 	}
 	
+	@FXML
 	public void logout(ActionEvent event) throws IOException { //done
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Logout?");
@@ -116,6 +122,7 @@ public class UserController {
 		}
 	}
 	
+	@FXML
 	public void help(ActionEvent event) throws IOException { //done
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("About This Page");
@@ -124,6 +131,7 @@ public class UserController {
 		alert.showAndWait();
 	}
 	
+	@FXML
 	public void createAlbum(ActionEvent event) throws IOException { //done?
 		
 		TextInputDialog inputDialog = new TextInputDialog();
@@ -203,6 +211,7 @@ public class UserController {
 		}
 	}
 	
+	@FXML
 	public void deleteAlbum(ActionEvent event) throws IOException { //done?
 		TextInputDialog inputDialog = new TextInputDialog();
 		inputDialog.setTitle("Delete Album");
@@ -281,6 +290,7 @@ public class UserController {
         
 	}
 	
+	@FXML
 	public void renameAlbum(ActionEvent event) throws IOException {
 		//if name match: ask for new name
 		//else if nothing entered/nomatch: errormsg
@@ -345,6 +355,7 @@ public class UserController {
 		return selectedAlbumName;
 	}
 	
+	@FXML
 	public void goToAlbum(ActionEvent event) throws IOException { //done
 		//get album name, then go to specific album
 		TextInputDialog inputDialog = new TextInputDialog();
@@ -383,6 +394,7 @@ public class UserController {
         
 	}
 	
+	@FXML
 	public void searchByDate(ActionEvent event) throws IOException { //NEEDS WORK
 		Dialog<Pair<String, String>> searchDialog = new Dialog<>();
 		searchDialog.setTitle("Search by Date");
@@ -498,6 +510,7 @@ public class UserController {
 	    searchDialog.showAndWait();
 	}
 	
+	@FXML
 	public void searchByTag(ActionEvent event) throws IOException { //single tag NEEDS WORK
 		Dialog<Pair<String, String>> searchDialog = new Dialog<>();
 		searchDialog.setTitle("Search by Tag");
@@ -558,6 +571,7 @@ public class UserController {
 	    searchDialog.showAndWait();
 	}
 	
+	@FXML
 	public void searchByTagMultiple(ActionEvent event) throws IOException { //NEEDS WORK
 		Dialog<Pair<String, String>> searchDialog = new Dialog<>();
 		searchDialog.setTitle("Search by Tag");
