@@ -109,7 +109,7 @@ public class AlbumController {
 	
 	@FXML
 	public void getInfo(ActionEvent event) throws IOException {
-		if (photoList.getSelectionModel().getSelectedItem().isEmpty()) {
+		if (photoList.getSelectionModel().getSelectedItem() == null) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("ERROR");
 			alert.setHeaderText("No Photo Selected");
@@ -280,7 +280,7 @@ public class AlbumController {
 	}
 	
 	@FXML
-	public void caption(ActionEvent event) {
+	public void caption(ActionEvent event) throws IOException {
 		TextInputDialog inputDialog = new TextInputDialog();
 		inputDialog.setTitle("Caption");
 		inputDialog.setHeaderText("Add or Change Caption");
@@ -295,6 +295,45 @@ public class AlbumController {
 		String captionText = nameInput.get();
 		selectedPhoto.setCaption(captionText);
 		//captionDisplay.setText...
+		File f = new File("data/"+ LoginController.getName()+ UserController.getAlbumName()+copyImagePath +"caption.txt");
+		if(!f.exists() && !f.isDirectory()) { 
+			FileOutputStream createfile = new FileOutputStream("data/"+ UserController.getAlbumName()+copyImagePath +"caption.txt");
+			createfile.close();
+		}
+		
+		
+		FileInputStream file = new FileInputStream("data/"+ UserController.getAlbumName()+copyImagePath +"caption.txt");
+		int ch;
+		
+		FileOutputStream tempfile = new FileOutputStream("data/tempcaption.txt");
+		while ((ch = file.read()) != -1) {
+			tempfile.write(ch);
+		}
+		
+		
+		char[] tempArray = captionText.toCharArray();
+		tempfile.write(',');
+		for (int i = 0; i < tempArray.length; i++) {
+			tempfile.write(tempArray[i]);
+		}
+		
+		tempfile.close();
+		file.close();
+		
+		File oldFile = new File("data/"+ UserController.getAlbumName()+copyImagePath +"caption.txt");
+		oldFile.delete();
+		
+		FileInputStream tempUserFile = new FileInputStream("data/tempalbum.txt");
+		FileOutputStream newfile = new FileOutputStream("data/"+ UserController.getAlbumName()+copyImagePath +"caption.txt");
+		while ((ch = tempUserFile.read()) != -1) {
+			newfile.write(ch);
+		}
+		
+		tempUserFile.close();
+		newfile.close();
+		File ofile = new File ("data/tempcaption.txt");
+		ofile.delete();
+		initialize();
 	}
 	
 	public void addTag(ActionEvent event) {
