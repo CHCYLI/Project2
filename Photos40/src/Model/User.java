@@ -228,6 +228,7 @@ public class User implements Serializable{
 		int targetIndex = -1;
 		for (int i = 0; i < albums.size(); i++) {
 			if (albums.get(i).getAlbumName().equals(original)) {
+				System.out.println("original");
 				originalAlbumS = albums.get(i).getAlbumName();
 				originalAlbum = albums.get(i);
 				originalIndex = i;
@@ -236,14 +237,21 @@ public class User implements Serializable{
 			if (albums.get(i).getAlbumName().equals(target)) {
 				targetAlbumS = albums.get(i).getAlbumName();
 				//targetAlbum = albums.get(i);
+				System.out.println("targer");
 				targetIndex = i;
 			}
 		}
 		
-		if (originalAlbumS.equals("")|| targetAlbumS.equals("")) return false;
+		if (originalAlbumS.equals("")|| targetAlbumS.equals("")) {
+			System.out.println("Both");
+			return false;
+		}
 		/**************************/
 		
-		if (!originalAlbum.hasPhoto(namePhoto)) return false;
+		if (!originalAlbum.hasPhoto(namePhoto)) {
+			System.out.println("Doesnothaveit");
+			return false;
+		}
 		
 		Photo tempPhoto = albums.get(originalIndex).getPhoto(namePhoto);
 		albums.get(targetIndex).addPhoto(tempPhoto);

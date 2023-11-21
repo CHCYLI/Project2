@@ -415,6 +415,9 @@ public class AlbumController {
         String oldName = oldAlbumName.getText();
         String newName = newAlbumName.getText();
         String pname = photoName.getText();
+        //System.out.println(oldName);
+        //System.out.println(newName);
+        //System.out.println(pname);
 		
         if (oldName.isEmpty() || newName.isEmpty()){
         	Alert alert = new Alert(AlertType.ERROR);
@@ -484,18 +487,18 @@ public class AlbumController {
 			tempfile.close();
 			file.close();
 			
-			File oldFile = new File("data/"+ LoginController.getName()+ newName +"album.txt");
+			File oldFile = new File("data/"+ LoginController.getName()+ newName +"photo.txt");
 			oldFile.delete();
 			
-			FileInputStream tempUserFile = new FileInputStream("data/tempalbum.txt");
-			FileOutputStream finalFile = new FileOutputStream("data/"+ LoginController.getName()+ newName +"album.txt");
+			FileInputStream tempUserFile = new FileInputStream("data/tempphoto.txt");
+			FileOutputStream finalFile = new FileOutputStream("data/"+ LoginController.getName()+ newName +"photo.txt");
 			while ((ch = tempUserFile.read()) != -1) {
 				finalFile.write(ch);
 			}
 			
 			tempUserFile.close();
 			finalFile.close();
-			File ofile = new File ("data/tempalbum.txt");
+			File ofile = new File ("data/tempphoto.txt");
 			ofile.delete();
 			
 			initialize();
